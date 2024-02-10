@@ -1,52 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard</title>
-    <style>
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+  <style>
+    table {
+    border-collapse: collapse;
+    width: 50%; /* Adjust the width as desired */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the background color and opacity */
+   color: #ffffff; /* Set text color to white */
+    }
 
-      th, td {
-        border: 1px solid #bcbbbb;
-        text-align: left;
-        padding: 8px;
-      }
+    th, td {
+    border: 2px solid #a678ec ;
+    text-align: center;
+    padding: 8px;
+    }
 
-      th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-      }
-    </style>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+    th {
+    background-color: #000000;
+    font-weight: bold;
+    box-shadow: 0cm 0cm 0.5cm #a678ec;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
   
-      html {
-        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-      }
-    </style>
+    html {
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+  </style>
 </head>
-
+<div class="h-full ">
+  <!--Nav-->
+  <div class="w-full container mx-auto ">
+  <div class="flex items-center justify-between pb-8 ">
+    <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+    <span class="leading-tight "> 
+      Cryptocurrency
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">Exchange Simulator</span>
+    </span>
+    </a>
+  </div>
 <body class="leading-normal tracking-normal text-indigo-400 m-6 bg-cover bg-fixed" style="background-image: url('../images/header.png');">
-    <div class="h-full">
-        <!-- Nav -->
-        <div class="w-full container mx-auto pb-5">
-            <div class="w-full flex items-center justify-between ">
-                <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
-                    Leaderboard
-                </a>
-            </div>
-        </div>
+  <div class="h-full">
+    <!-- Nav -->
+    <h1 class="my-4 text-3xl md:text-5xl text-indigo-400  font-bold text-center">
+      Market
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
+            Leaderboard
+          </span>
+        </h1>
 
         <!-- Leaderboard Table -->
-        <div id="leaderboardTable" class="container mx-auto block text-indigo-400 font-bold mb-2 bg-black bg-opacity-50">
-            <div class="flex flex-col w-full md:w-2/5 lg:items-start overflow-y-hidden">
-                <!-- Table will be dynamically generated here -->
-            </div>
+        <div id="leaderboardTable" class="">
         </div>
 
         <div class="w-full pt-16 pb-6 text-sm text-center md:text-left fade-in">
