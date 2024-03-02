@@ -140,17 +140,14 @@
     <!-- JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
     <script>
-      fetch('../data/fakedata.xlsx') // Fetch the Excel file
-        .then(response => response.arrayBuffer())
+    function fetchCryptoData() {
+      fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false&x_cg_demo_api_key')
+        .then(response => response.json())
         .then(data => {
-          const workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
-          const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
-          const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet);
-
           const table = document.createElement('table');
           table.className = 'table-auto';
 
+          // Table Header
           const thead = document.createElement('thead');
           const headerRow = document.createElement('tr');
           ['Number', 'Coin', 'Symbol', 'Price (USD)', 'Change (24h %)', 'High (24h)', 'Low (24h)', 'Action'].forEach(headerText => {
@@ -161,40 +158,56 @@
           thead.appendChild(headerRow);
           table.appendChild(thead);
 
+          // Table Body
           const tbody = document.createElement('tbody');
-          jsonData.forEach((crypto, index) => {
+          data.forEach((crypto, index) => {
             const row = document.createElement('tr');
-            Object.values(crypto).forEach(value => {
+            const cryptoData = [
+              index + 1,
+              crypto.name,
+              crypto.symbol.toUpperCase(),
+              crypto.current_price,
+              crypto.price_change_percentage_24h,
+              crypto.high_24h,
+              crypto.low_24h,
+              '' // Placeholder for action buttons
+            ];
+            cryptoData.forEach((value, i) => {
               const cell = document.createElement('td');
-              cell.textContent = value;
+              if (i === 7) { // Action cell for Buy/Sell buttons
+                const buyButton = document.createElement('button');
+                buyButton.textContent = 'Buy';
+                // Add classes for styling
+                buyButton.className = 'buy-button bg-gradient-to-r from-gray-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out';
+                buyButton.onclick = () => alert(`Buying ${crypto.name}`);
+                cell.appendChild(buyButton);
+
+                const sellButton = document.createElement('button');
+                sellButton.textContent = 'Sell';
+                // Add classes for styling
+                sellButton.className = 'sell-button bg-gradient-to-r from-gray-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out';
+                sellButton.onclick = () => alert(`Selling ${crypto.name}`);
+                cell.appendChild(sellButton);
+              } else {
+                cell.textContent = value;
+              }
               row.appendChild(cell);
             });
-            const actionCell = document.createElement('td');
-            const buyButton = document.createElement('button');
-            buyButton.textContent = 'Buy';
-            buyButton.className = 'buy-button bg-gradient-to-r from-gray-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out';
-            buyButton.addEventListener('click', () => {
-              // Implement your buy logic here
-              console.log('Buy button clicked for', crypto['Coin']);
-            });
-            const sellButton = document.createElement('button');
-            sellButton.textContent = 'Sell';
-            sellButton.className = 'sell-button bg-gradient-to-r from-gray-600 to-red-500 hover:from-red-500 hover:to-red-600 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out';
-            sellButton.addEventListener('click', () => {
-              // Implement your sell logic here
-              console.log('Sell button clicked for', crypto['Coin']);
-            });
-            actionCell.appendChild(buyButton);
-            actionCell.appendChild(sellButton);
-            row.appendChild(actionCell);
             tbody.appendChild(row);
           });
           table.appendChild(tbody);
 
-          document.getElementById('cryptoTable').appendChild(table);
+          // Replace the existing table or append the new one
+          const cryptoTableContainer = document.getElementById('cryptoTable');
+          cryptoTableContainer.innerHTML = ''; // Clear existing content
+          cryptoTableContainer.appendChild(table);
         })
-        .catch(error => console.error('Error fetching data:', error));
-    </script>
+        .catch(error => console.error('Error fetching live crypto data:', error));
+    }
+
+    // Call the function on page load
+    window.onload = fetchCryptoData;
+  </script>
 </body>
 
 </html>
