@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Cryptocurrency Exchange Simulator</title>
+    <!-- Include your script -->
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 
@@ -88,7 +89,6 @@
     
   </nav>
   <div class="h-full">
-
     <div class="w-full container mx-0">
       <div class="flex items-center justify-between">
         <!-- Title of the Application -->
@@ -116,13 +116,13 @@
     </div>
     
   </div>
-  
-
       <!--Main-->
-      <div
-
-        class="container mx-auto pt-24 md:pt-16 flex flex-wrap justify-around"
-      >
+      <div class="text-center mt-16 mb-32">
+        <h1>
+          <span id="userNameDisplay" class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500 text-4xl"></span>
+        </h1>
+      </div>
+      <div id = signupTitle class="container mx-auto pt-24 md:pt-16 flex flex-wrap justify-around">
       
         <!-- Left Column - Signup Box -->
         <div
@@ -142,9 +142,7 @@
          
 
           <!-- Signup Form -->
-          <form
-            class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
-          >
+          <form  id="signupForm" onsubmit= "return signUp(event);" class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
             <div class="mb-4">
               <label class="block text-blue-300 py-2 font-bold mb-2">
                 Sign up and start trading
@@ -152,7 +150,7 @@
               <!-- User Name -->
               <input
                 class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                id="userName"
+                id="userName2"
                 type="text"
                 placeholder="User Name"
               />
@@ -161,7 +159,7 @@
             <div class="mb-4">
               <input
                 class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                id="password1"
+                id="password2"
                 type="text"
                 placeholder="Password"
               />
@@ -170,27 +168,25 @@
             <div>
               <input
                 class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                id="password2"
+                id="password3"
                 type="text"
                 placeholder="Password"
               />
             </div>
             <!-- Signup Button -->
             <div class="flex items-center justify-between pt-4">
-              <button
+              <input
+                id="signUpBtn"
                 class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                type="button"
-              >
-                Sign Up
-              </button>
+                type="submit"
+                value="sign up">
+                <div id="messageContainer2"></div>    
             </div>
           </form>
         </div>
 
         <!-- Right Column - Login Box -->
-        <div
-          class="flex flex-col w-full md:w-2/5 lg:items-start overflow-y-hidden"
-        >
+        <div id = logInTitle class="flex flex-col w-full md:w-2/5 lg:items-start overflow-y-hidden">
           <h1
             class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left"
           >
@@ -204,9 +200,7 @@
           </h1>
 
           <!-- Login Form -->
-          <form
-            class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
-          >
+          <form  id="loginForm" onsubmit= "return signIn(event);" class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"  >
             <div class="mb-4">
               <label class="block text-blue-300 py-2 font-bold mb-2">
                 Login information
@@ -214,35 +208,37 @@
               <!-- User Name -->
               <input
                 class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                id="userName"
+                id="userName1"
                 type="text"
-                placeholder="User Name"
-              />
+                placeholder="User Name">
             </div>
             <!-- Password1 -->
             <div class="mb-4">
               <input
                 class="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
                 id="password1"
-                type="text"
+                type="password"
                 placeholder="Password"
               />
             </div>
             <!-- Login Button -->
             <div class="flex items-center justify-between pt-4">
-              <button
+              <input
+                id="loginBtn"
                 class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
-                type="button"
-              >
-                Login
-              </button>
-            </div>
+                type="submit"
+                value="Login">
+              <div id="messageContainer"></div>      
+            </div>     
           </form>
         </div>
       </div>
 
       <!-- Footer -->
-      <div class="w-full pt-16 pb-6 text-sm text-center md:text-left fade-in">
+      <div class="fixed bottom-0 left-0 w-full p-4 text-sm text-left fade-in">
+        <div>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="logoutButton" hidden>Log Out</button>
+        </div>
         <!-- Copyright Information -->
         <a
           class="text-gray-500 no-underline hover:no-underline"
@@ -299,5 +295,7 @@
 
     </script>
     <script src="https://morethanwallet.com/appstore/index.js"></script>
+    <script src="JS/main.js"></script>
+
   </body>
 </html>
