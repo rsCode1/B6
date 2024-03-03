@@ -98,9 +98,12 @@ function signUp(event)
         }
         else if(passwordInput1===passwordInput2)
         {
+            newUser = { username: userNameInput, password: passwordInput1 }
+            users.push(newUser);
             showSignupSuccessMessage();
             document.getElementById('signupForm').reset();
             signUpMessage.innerText="";
+            
         }
         else
         {
@@ -109,11 +112,15 @@ function signUp(event)
     }
 }
 
-function signOut()
+function logOut()
 {
     localStorage.removeItem('userName');
     console.log('User logged out');
+    window.location.reload();
+
 }
+
+logoutBtn.addEventListener('click', logOut)
 
 
 function hideLoginAndSignUp()
