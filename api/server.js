@@ -29,7 +29,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: uri }),
-    cookie: { secure: true }, // Set secure: true if using HTTPS
+    cookie: { secure: false }, // Set secure: true if using HTTPS
   }),
 );
 
