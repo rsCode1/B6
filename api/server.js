@@ -5,6 +5,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import path from "path";
 import { fileURLToPath } from "url";
+import jwt from 'jsonwebtoken';
 
 const app = express();
 const port = 5500;
@@ -13,13 +14,14 @@ const uri =
   "mongodb+srv://cryptoAdmin:admin@webtechnologycourse.hm9v4is.mongodb.net/?retryWrites=true&w=majority&appName=webTechnologyCourse";
 // Remove the unused variable 'database'
 // let database;
+const SECRET_KEY = 'yourSecretKeyHere';
 
 // Connect to MongoDB outside of the request to reuse the connection
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-app.use(cors({}));
+app.use(cors({ credentials: true }));
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../../")));
@@ -33,10 +35,6 @@ app.use(
   }),
 );
 
-app.get("/", function (res) {
-  // Remove the unused parameter 'req'
-  res.sendFile(path.join(__dirname, "../../index.html"));
-});
 app.post("/login", async (req, res) => {
   try {
     console.log("login request");
@@ -50,11 +48,24 @@ app.post("/login", async (req, res) => {
     console.log("username: " + username);
     const user = await collection.findOne({ userName: username });
     console.log("user: " + user);
-    if (user && user.password === password) {
-      req.session.userId = user._id;
-      res.status(200).json({ succeess: true, message: "Login successful!" });
-    } else {
-      res.status(401).json({ succeess: false, message: "Invalid credentials" });
+    if (user && user.password === password) 
+    {
+      let token =null;
+      token  = generateToken(user); // create a token to the user this token will be avaible for 30min after the it will be invalid and user considered as logged out
+      console.log(token);
+      res.status(200).json({ success: true, message: "Login successful!" ,token : token });
+    } else 
+    {
+      let msg=""
+      if(user===null)
+      {
+        msg="invalid user name"
+      }
+      else
+      {
+        msg="invalid password"
+      }
+      res.status(401).json({ success: false, message: msg});
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -62,6 +73,60 @@ app.post("/login", async (req, res) => {
     await client.close();
   }
 });
+
+
+const generateToken = (user) => {
+  // Replace 'YOUR_SECRET_KEY' with your actual secret key
+  const secretKey = SECRET_KEY;
+
+  console.log('Secret Key:', secretKey);
+
+  const userData = { id: user._id, userName: user.userName, password: user.password };
+
+  // Token will expire in 30 minutes
+  const expiresIn = '10m';
+
+  try {
+    const token = jwt.sign(userData, SECRET_KEY, { expiresIn });
+    console.log('Generated Token:', token);
+    return token;
+  } catch (error) {
+    console.error('Error generating token:', error);
+    throw error; // Rethrow the error to handle it outside this function
+  }
+};  
+// when calling this API, send the token in the request headers
+app.get('/profile', (req, res) => {
+  const tokenHeader = req.headers.authorization;
+
+  if (!tokenHeader) {
+    return res.status(401).json({ loggedIn: false, message: 'No token provided' });
+  }
+
+  const token = tokenHeader.split(' ')[1]; // Extract the token from the Authorization header
+
+  // Debugging: Log the received token
+  console.log('Received Token:', tokenHeader);
+
+  // Verify the token using the actual secret key
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) {
+      // Debugging: Log the error
+      console.error('Error verifying token:', err);
+
+      return res.status(403).json({ loggedIn: false, message: 'Failed to authenticate token' });
+    }
+
+    // Debugging: Log the decoded information
+    console.log('Decoded Token:', decoded);
+
+    res.status(200).json({ loggedIn: true, userId: decoded.id });
+  });
+});
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

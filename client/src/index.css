@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-image: url('../src/images/header.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 0; /* Remove default margin */
+  }
+
+  .nav-link {
+    text-decoration: none; /* Remove underline */
+    color: #ffffff; /* Text color */
+    font-size: 16px; /* Font size */
+    font-weight: bold; /* Font weight */
+    padding: 10px 16px; /* Padding around the text */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+  }
+  
+  .nav-link:hover {
+    color: #00bcd4; /* Change color on hover */
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+    background-color: #1a1a1a; /* Dark background color */
+    color: #fff; /* Text color */
+    font-size: 0.875rem; /* Adjust font size as needed */
+  }
+  /* Coin Table Styles */
+/* index.css */
+
+/* index.css */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+th,
+td {
+    border: 2px solid #a678ec;
+    text-align: center;
+    padding: 8px;
+}
+
+th {
+    background-color: #000000;
+    font-weight: bold;
+    box-shadow: 0cm 0cm 0.5cm #a678ec;
+}
+
+.messageContainer {
+  color: red; /* Set the text color to red for error messages */
+  font-size: 14px; /* Adjust the font size as needed */
+  margin-top: 8px; /* Add some top margin for spacing */
+}
+
+.disabled-link {
+  color: gray;        /* Adjust the color to make it look disabled */
+  pointer-events: none;  /* Disable pointer events to make it unclickable */
+  text-decoration: none;  /* Remove underline or any other decoration */
+}
+
+  
+  
+  
+  
+  
