@@ -10,8 +10,8 @@ const Logout = () => {
       // Logout logic
       localStorage.removeItem('authToken'); // erase the token given to the user from the server
       navigate('/'); // navigate to the home page
-      window.location.reload();
          // Reload the entire page
+        window.location.reload();
     }, [navigate]); // Include navigate in the dependency array to prevent eslint warnings
   
 

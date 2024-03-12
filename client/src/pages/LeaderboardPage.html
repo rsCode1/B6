@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard</title>
+  <style>
+    table {
+    border-collapse: collapse;
+    width: 50%; /* Adjust the width as desired */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust the background color and opacity */
+   color: #ffffff; /* Set text color to white */
+    }
+
+    th, td {
+    border: 2px solid #a678ec ;
+    text-align: center;
+    padding: 8px;
+    }
+
+    th {
+    background-color: #000000;
+    font-weight: bold;
+    box-shadow: 0cm 0cm 0.5cm #a678ec;
+    }
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+  
+    html {
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+  </style>
+</head>
+<div class="h-full ">
+  <!--Nav-->
+  <div class="w-full container mx-0">
+  <div class="flex items-center justify-between pb-8 ">
+    <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/index.html">
+    <span class="leading-tight "> 
+      Cryptocurrency
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">Exchange Simulator</span>
+    </span>
+    </a>
+  </div>
+<body class="leading-normal tracking-normal text-indigo-400 m-6 bg-cover bg-fixed" style="background-image: url('../images/header.png');">
+  <div class="h-full">
+       <!--Nav-->
+       <svg
+       xmlns="http://www.w3.org/2000/svg"
+       id="menu-button"
+       class="absolute right-3 top-7 h-10 w-20 cursor-pointer 2xl:hidden block"
+       fill="none"
+       viewBox="0 0 25 25"
+       stroke="currentColor"
+       onclick="toggleNavbar();"
+     >
+       <path
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         stroke-width="2"
+         d="M4 6h16M4 12h16M4 18h16"
+       />
+     </svg>
+
+     <nav id="navbar" class="absolute top-16 left-0 p-3 hidden 2xl:hidden block bg-gray-900 opacity-75 w-full shadow-lg text-center rounded-full flex flex-col overflow-hidden transition-all ease-in-out duration-500">
+       <a href="/pages/LeaderboardPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Leaderboard</a>
+       <a href="/pages/LearningPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Learning</a>
+       <a href="/pages/LoginHomePage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Market Table</a>
+       <a href="/pages/WalletBalancePage.html" class="text-indigo-400 hover:text-indigo-600">Wallet Balance</a>
+     </nav>
+
+     <script>
+       function toggleNavbar() {
+         var navbar = document.getElementById("navbar");
+         navbar.classList.toggle("hidden");
+       }
+     </script>
+   
+ <nav id ="navbar2" class="absolute top-6 right-0 p-4 hidden 2xl:block">
+   <a href="/pages/LeaderboardPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Leaderboard</a>
+   <a href="/pages/LearningPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Learning</a>
+   <a href="/pages/LoginHomePage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Market Table</a>
+   <a href="/pages/WalletBalancePage.html" class="text-indigo-400 hover:text-indigo-600">Wallet Balance</a>
+   
+ </nav>
+    <!-- Nav -->
+    <h1 class="my-4 text-3xl md:text-5xl text-indigo-400  font-bold text-center">
+      Market
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
+            Leaderboard
+          </span>
+        </h1>
+
+        <!-- Leaderboard Table -->
+        <div id="leaderboardTable" class="">
+        </div>
+
+        <div class="w-full pt-16 pb-6 text-sm text-center md:text-left fade-in">
+            <a class="text-gray-500 no-underline hover:no-underline" href="OUR GIT HUB">&copy; App 2024</a> - Project by
+            <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/AxFISR">Alex,</a>
+            <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Roe,</a>
+            <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Shimron,</a>
+            <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Daniel</a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
+    <script>
+        fetch('../data/fakeleaderboard.xlsx') // Fetch the Excel file
+            .then(response => response.arrayBuffer())
+            .then(data => {
+                const workbook = XLSX.read(new Uint8Array(data), { type: 'array' });
+                const sheetName = workbook.SheetNames[0]; // Assuming data is in the first sheet
+                const sheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                const table = document.createElement('table');
+                table.className = 'table-auto';
+
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                ['Rank', 'Name', 'Score'].forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                jsonData.forEach((leader, index) => {
+                    const row = document.createElement('tr');
+                    ['rank', 'name', 'score'].forEach(key => {
+                        const cell = document.createElement('td');
+                        cell.textContent = leader[key];
+                        row.appendChild(cell);
+                    });
+                    tbody.appendChild(row);
+                });
+                table.appendChild(tbody);
+
+                document.getElementById('leaderboardTable').appendChild(table);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

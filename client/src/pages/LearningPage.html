@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Learn Cryptocurrency Trading</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <div class="w-full container mx-0 ">
+      <div class="flex items-center justify-between pb-8 ">
+        <a class="flex items-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="/index.html">
+        <span class="leading-tight "> 
+          Cryptocurrency
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">Exchange Simulator</span>
+        </span>
+        </a>
+      </div>
+    <!-- Tailwind CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"
+    />
+    <!-- Custom Tailwind CSS -->
+    <link
+      href="https://unpkg.com/@tailwindcss/custom-forms/dist/custom-forms.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Custom Styles -->
+    <style>
+      /* Importing Google Fonts */
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+
+      /* Applying custom font to the HTML */
+      html {
+        font-family:
+          "Poppins",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          "Noto Sans",
+          sans-serif,
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji";
+      }
+    </style>
+  </head>
+
+  <body
+    class="leading-normal tracking-normal text-indigo-400 m-6 bg-cover bg-fixed"
+    
+    style="background-image: url('../images/header.png');"
+  >
+           <!--Nav-->
+           <svg
+           xmlns="http://www.w3.org/2000/svg"
+           id="menu-button"
+           class="absolute right-3 top-7 h-10 w-20 cursor-pointer 2xl:hidden block"
+           fill="none"
+           viewBox="0 0 25 25"
+           stroke="currentColor"
+           onclick="toggleNavbar();"
+         >
+           <path
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="2"
+             d="M4 6h16M4 12h16M4 18h16"
+           />
+         </svg>
+    
+         <nav id="navbar" class="absolute top-16 left-0 p-3 hidden 2xl:hidden block bg-gray-900 opacity-75 w-full shadow-lg text-center rounded-full flex flex-col overflow-hidden transition-all ease-in-out duration-500">
+           <a href="/pages/LeaderboardPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Leaderboard</a>
+           <a href="/pages/LearningPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Learning</a>
+           <a href="/pages/LoginHomePage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Market Table</a>
+           <a href="/pages/WalletBalancePage.html" class="text-indigo-400 hover:text-indigo-600">Wallet Balance</a>
+         </nav>
+    
+         <script>
+           function toggleNavbar() {
+             var navbar = document.getElementById("navbar");
+             navbar.classList.toggle("hidden");
+           }
+         </script>
+
+     <nav id ="navbar2" class="absolute top-6 right-0 p-4 hidden 2xl:block">
+       <a href="/pages/LeaderboardPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Leaderboard</a>
+       <a href="/pages/LearningPage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Learning</a>
+       <a href="/pages/LoginHomePage.html" class="text-indigo-400 hover:text-indigo-600 mr-4">Market Table</a>
+       <a href="/pages/WalletBalancePage.html" class="text-indigo-400 hover:text-indigo-600">Wallet Balance</a>
+       
+     </nav>
+        <!-- Nav -->
+    <!-- Main Content -->
+    <div class="container mx-auto pt-24">
+      <!-- Section: Introduction -->
+      <section class="mb-16">
+        <div class="flex flex-col md:flex-row items-center justify-center mb-8">
+          <!-- Left Column - Text Content -->
+          <div class="w-full md:w-1/2 px-6">
+            <h1 class="text-4xl font-bold mb-4">Learn Cryptocurrency Trading</h1>
+            <p class="mb-4 text-white">Start your journey into the world of cryptocurrency trading with our comprehensive learning resources.</p>
+            <p class="mb-4  text-white">Whether you're a beginner or an experienced trader, we have valuable insights, tips, and strategies to help you succeed.</p>
+          </div>
+
+          <div class="w-full md:w-1/3 px-6 ">
+            <img src="../images/learning1.jpg" alt="Image" class="rounded-lg shadow-lg">
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Learning Resources -->
+      <section class="mb-16 ">
+        <h2 class="text-2xl font-bold mb-4">Explore Our Learning Resources</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden focus:ring transform transition hover:scale-105 duration-300 ease-in-out">
+            <img src="../images/learning2.jpg" alt="Image" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-bold mb-2">Video Tutorials</h3>
+              <p class="text-gray-600">Watch step-by-step tutorials on cryptocurrency trading techniques and strategies.</p>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden focus:ring transform transition hover:scale-105 duration-300 ease-in-out">
+            <img src="../images/learning3.jpg" alt="Image" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-bold mb-2">Educational Articles</h3>
+              <p class="text-gray-600">Read in-depth articles covering various aspects of cryptocurrency trading, from fundamental analysis to technical indicators.</p>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden focus:ring transform transition hover:scale-105 duration-300 ease-in-out">
+            <img src="../images/learning4.jpg" alt="Image" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-bold mb-2">Live Webinars</h3>
+              <p class="text-gray-600">Join live webinars hosted by industry experts to learn about the latest trends and strategies in cryptocurrency trading.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Testimonials -->
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold mb-4">What Our Users Say</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <p class="mb-4">"אחלה אתר באמא שלי"</p>
+            <p class="text-gray-600 ">-Donald Trump</p>
+          </div>
+          <!-- Testimonial 2 -->
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <p class="mb-4">"This website made me fill as a complete person again, thank you so much"</p>
+            <p class="text-gray-600">- Jane Smith</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Footer -->
+      <div class="w-full pt-16 pb-6 text-sm text-center md:text-left fade-in">
+        <a class="text-gray-500 no-underline hover:no-underline" href="OUR GIT HUB">&copy; App 2024</a> - Project by
+        <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/AxFISR">Alex,</a>
+        <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Roe,</a>
+        <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Shimron,</a>
+        <a class="text-gray-500 no-underline hover:no-underline" href="https://github.com/">Daniel</a>
+    </div>
+
+  </body>
+</html>
