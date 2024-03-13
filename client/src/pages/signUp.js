@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { userNameAvailable } from '../routes/script.js';
+import { register } from '../routes/script.js';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
   const [userName, setUserName] = useState(""); // Use state hook to manage input value
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [signUpMessage, setMessage] = useState("");
+  const navigate = useNavigate(); // navigte to home
   const OnSignUp = async (event) => {
     
     event.preventDefault(); // Prevents the default form submission behavior
     let okToSignUp = true; // Initialize a variable to track if it's okay to sign up
 
-    try {
+    try 
+    {
       const response = await userNameAvailable(userName); // Checking if the username is available
       let msg=""
       if (response === false) {
@@ -27,12 +31,25 @@ function SignUp() {
       
       setMessage(msg);
     
-      if (okToSignUp) {
+      if (okToSignUp) 
+      {
+        const response = await register(userName, password1);
+        console.log(response);
+  
+        if (response.registerStatus === true) 
+        {
+          // Move the showPopup function call here
+          alert('You have successfully registered. Welcome to the Cryptocurrency market trade!');
+          navigate("/");
+        } else {
+          setMessage(response.message);
+        }
       }
-    } catch (err) 
+    }
+    catch (err) 
     {
-      console.log("erro signUp : " + err);
-      okToSignUp=false;
+      console.log("error signUp : " + err);
+      setMessage(err);
     }
 
   };

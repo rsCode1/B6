@@ -31,6 +31,10 @@ const Login = () => {
         token = response.token;  // take the toekn for the user this token will be avail for 10m
         console.log(token);
         localStorage.setItem('authToken', token); //save this token on the local storage
+        localStorage.setItem('userName', userName); //save this token on the local storage
+        localStorage.setItem('Balanace', response.balance); //save this token on the local storage
+        console.log(response.balance);
+        localStorage.setItem('balance', response.balance);
         navigate('/');
         window.location.reload();
       }

@@ -11,10 +11,11 @@ import Home from './pages/home.js';
 import Logout from './pages/logOut.js'
 import { checkActiveToken } from './routes/script.js';
 
-function Navbar() {
+function Navbar() 
+{
   console.log('Navbar component rendered');
   const [userLoggedIn, setUserLoggedIn] = useState(false);
- 
+  const [myBalance, setMyBalance] = useState(false);
 
   useEffect(() => {
     const fetchUserStatus = async () => {
@@ -24,6 +25,14 @@ function Navbar() {
     };
     fetchUserStatus();
   }, []);
+
+  useEffect(() => {
+    const storedBalance = localStorage.getItem('balance');
+    if (storedBalance !== null && userLoggedIn) {
+      setMyBalance(parseInt(storedBalance));
+    }
+  }, [userLoggedIn]);
+
   return (
     <Router>
       <div>
@@ -42,9 +51,12 @@ function Navbar() {
                   </Link>
                 </>
               ) : (
-                <Link to="/logout" className="nav-link ml-4">
-                  Logout
-                </Link>
+                <>
+                  <Link to="/logout" className="nav-link ml-4">
+                    Logout
+                  </Link>
+                  <div className="nav-link ml-4">Balance: <span style={{ color: myBalance < 0 ? 'red' : myBalance > 0 ? 'green' : 'blue' }}>{myBalance}$</span></div>
+                </>
               )}
             </div>
             <div className="flex items-center">
@@ -139,7 +151,9 @@ function Footer() {
   );
 }
 
-function App() {
+
+function App() 
+{
   return (
     <div>
       <Navbar/>
@@ -147,5 +161,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

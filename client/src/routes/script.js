@@ -72,6 +72,32 @@ const url ="http://127.0.0.1:5500"
         throw error; // Rethrow the error to be handled by the caller
       }
     }
+
+    export async function register(userName, password) {
+      try {
+        const response = await fetch(url + "/register", { // Corrected typo here
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userName: userName, password: password }), // Corrected typo here
+        });
+    
+        console.log('Response:', response); // Log the response object
+    
+        if (response.ok) {
+          const data = await response.json(); // Get JSON response
+          return data;
+        } else {
+          throw new Error('Network response was not ok'); // Throw error for other status codes
+        }
+      } catch (error) {
+        console.error('Error registering username:', error);
+        throw error; // Rethrow the error to be handled by the caller
+      }
+    }
+    
+    
     
     
     

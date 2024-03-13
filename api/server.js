@@ -53,7 +53,7 @@ app.post("/login", async (req, res) => {
       let token =null;
       token  = generateToken(user); // create a token to the user this token will be avaible for 30min after the it will be invalid and user considered as logged out
       console.log(token);
-      res.status(200).json({ success: true, message: "Login successful!" ,token : token });
+      res.status(200).json({ success: true, message: "Login successful!" ,token : token , userName:user.userName,balance : user.balance });
     } else 
     {
       let msg=""
@@ -99,6 +99,46 @@ app.post("/userExist", async (req, res) => {
     await client.close();
   }
 });
+app.post("/register", async (req, res) => {
+  try {
+    console.log("Check user existence");
+    await client.connect();
+    console.log("Connected to db");
+    const database = client.db("webTechnologyCourse");
+    console.log("Connected to database");
+    const collection = database.collection("users");
+    console.log("Connected to collection");
+
+    // Extract data from request body
+    const { userName,password} = req.body;
+
+    // Default values for coins array and balance
+    const coins = [
+      { coinName: "Bitcoin", amount: 1.2 },
+      { coinName: "Litecoin", amount: 10 }
+    ];
+    const balance = 1000;
+
+    // Create user object
+    const user = {
+      password,
+      balance,
+      coins,
+      userName
+    };
+
+    // Insert user into the database
+    await collection.insertOne(user);
+    // Respond with success message
+    res.status(200).json({ registerStatus : true ,message: 'User registered successfully' });
+  } catch (err) {
+    console.error("Error registering user:", err);
+    res.status(201).json({registerStatus : false, message: err.message });
+  } finally {
+    await client.close();
+  }
+});
+
 
 
 
