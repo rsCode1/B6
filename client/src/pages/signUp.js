@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { userNameAvailable } from '../routes/script.js';
 
 function SignUp() {
-  const onSignUp = (event) => {
-    // Your sign-up logic here
+  const [userName, setUserName] = useState(""); // Use state hook to manage input value
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [signUpMessage, setMessage] = useState("");
+  const OnSignUp = async (event) => {
+    
     event.preventDefault(); // Prevents the default form submission behavior
+    let okToSignUp = true; // Initialize a variable to track if it's okay to sign up
+
+    try {
+      const response = await userNameAvailable(userName); // Checking if the username is available
+      let msg=""
+      if (response === false) {
+        msg = "Username already taken.\n"; // If the username is not available, set an appropriate message
+        okToSignUp = false; // Set okToSignUp to false since username is not available
+        
+      }
+      else if (password1 !== password2) {
+        msg = "Passwords do not match.\n"; // If passwords don't match, append message
+        okToSignUp = false; // Set okToSignUp to false since passwords don't match
+      }
+      // Replace newline characters with <br> tags
+      
+      setMessage(msg);
+    
+      if (okToSignUp) {
+      }
+    } catch (err) 
+    {
+      console.log("erro signUp : " + err);
+      okToSignUp=false;
+    }
+
   };
 
   return (
@@ -15,7 +46,7 @@ function SignUp() {
         </span>
         Like Pro
       </h1>
-      <form id="signupForm" onSubmit={onSignUp} className="bg-gray-900 opacity-75 w-full max-w-md shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
+      <form id="signupForm" onSubmit={OnSignUp} className="bg-gray-900 opacity-75 w-full max-w-md shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
         <div className="mb-4">
           <label className="block text-blue-300 py-2 font-bold mb-2">
             Sign up and start trading
@@ -26,6 +57,8 @@ function SignUp() {
             id="userName2"
             type="text"
             placeholder="User Name"
+            defaultValue={userName} // Use defaultValue instead of value
+            onChange={(e) => setUserName(e.target.value)} // Set the state on change
           />
         </div>
         {/* Password1 */}
@@ -35,6 +68,8 @@ function SignUp() {
             id="password2"
             type="text"
             placeholder="Password"
+            defaultValue={password1} // Use defaultValue instead of value
+            onChange={(e) => setPassword1(e.target.value)} // Set the state on change
           />
         </div>
         {/* Password2 */}
@@ -44,6 +79,8 @@ function SignUp() {
             id="password3"
             type="text"
             placeholder="Password"
+            defaultValue={password2} // Use defaultValue instead of value
+            onChange={(e) => setPassword2(e.target.value)} // Set the state on change
           />
         </div>
         {/* Signup Button */}
@@ -54,7 +91,7 @@ function SignUp() {
             type="submit"
             value="Sign up"
           />
-          <div id="messageContainer2"></div>
+          <div id="messageContainer2" className="messageContainer">{signUpMessage}</div>
         </div>
       </form>
     </div>

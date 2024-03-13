@@ -48,29 +48,34 @@ const url ="http://127.0.0.1:5500"
         // Handle fetch errors if needed
       }
     };
+
+    export async function userNameAvailable(userName) {
+      try {
+        const response = await fetch(url + "/userExist", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username: userName }),
+        });
     
-    export async function endActiveToken() {
-      // Retrieve the token from local storage
-      const token = localStorage.getItem('authToken');
+        console.log('Response:', response); // Log the response object
     
-      if (token) {
-        try {
-          // Send the token to the server for revocation
-          await fetch('http://your-server-url/revoke-token', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token }),
-          });
-    
-          // Remove the token from local storage
-          localStorage.removeItem('authToken');
-        } catch (error) {
-          console.error('Error revoking token:', error);
+        if (response.ok) {
+          const data = await response.json(); // Get JSON response
+          return data.validName; // Return whether username is valid or not
+        } else {
+          throw new Error('Network response was not ok'); // Throw error for other status codes
         }
+      } catch (error) {
+        console.error('Error checking username availability:', error);
+        throw error; // Rethrow the error to be handled by the caller
       }
     }
+    
+    
+    
+    
 
 
 // document.getElementById("createData").addEventListener("submit", function (event) {

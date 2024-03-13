@@ -74,6 +74,35 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/userExist", async (req, res) => {
+  try {
+    console.log("Check user existence");
+    await client.connect();
+    console.log("Connected to db");
+    const database = client.db("webTechnologyCourse");
+    console.log("Connected to database");
+    const collection = database.collection("users");
+    console.log("Connected to collection");
+    const { username } = req.body;
+    console.log("Received username:", username);
+    const user = await collection.findOne({ userName: username });
+    console.log("User found in database:", user);
+    if (user === null) {
+      res.status(200).json({ validName: true, message: "Name is available" });
+    } else {
+      res.status(200).json({ validName: false, message: "Name is already taken" });
+    }
+  } catch (err) {
+    console.error("Error checking user existence:", err);
+    res.status(500).json({ message: err.message });
+  } finally {
+    await client.close();
+  }
+});
+
+
+
+
 
 const generateToken = (user) => {
   // Replace 'YOUR_SECRET_KEY' with your actual secret key
