@@ -16,7 +16,7 @@
     "tailwindcss": "^3.4.1"
   },
   "description": "Demo Crypto trade platform allowing to experince trading without risk!\r Supporting real-time prices!",
-  "main": "main.js",
+  "main": "server.js",
   "dependencies": {
     "@mongodb-js/saslprep": "^1.1.5",
     "ansi-regex": "^6.0.1",
