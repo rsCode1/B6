@@ -1,4 +1,4 @@
-const url = "https://b6-hkrb.onrender.com"; //for debug use "http://localhost:5500"
+const url = "http://localhost:5500"; //for debug use "http://localhost:5500"
 export function authenticateUser(userName, password) {
   return fetch(url + "/login", {
     method: "POST",
@@ -8,6 +8,27 @@ export function authenticateUser(userName, password) {
     body: JSON.stringify({
       username: userName,
       password: password,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Log the server response
+      return data; // Return the server response
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      return { success: false, message: "Error during authentication" };
+    });
+}
+
+export function getUserWallet(userName) {
+  return fetch(url + "/walletBalance", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: userName,
     }),
   })
     .then((response) => response.json())
@@ -97,14 +118,19 @@ export async function register(userName, password) {
   }
 }
 
-export async function purchase(userName , coinAmount,coinName , payment) {
+export async function purchase(userName, coinAmount, coinName, payment) {
   try {
     const response = await fetch(url + "/purchase", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username: userName , coinAmount : coinAmount , coinName : coinName , payment : payment}),
+      body: JSON.stringify({
+        username: userName,
+        coinAmount: coinAmount,
+        coinName: coinName,
+        payment: payment,
+      }),
     });
 
     console.log("Response of purchase:", response); // Log the response object
@@ -121,14 +147,24 @@ export async function purchase(userName , coinAmount,coinName , payment) {
   }
 }
 
-export async function updateUserSell(userName , coinName,newCoinsInWallet , newBalance) {
+export async function updateUserSell(
+  userName,
+  coinName,
+  newCoinsInWallet,
+  newBalance
+) {
   try {
     const response = await fetch(url + "/updateSell", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userName: userName , coinName : coinName , newCoinsInWallet : newCoinsInWallet , newBalance : newBalance}),
+      body: JSON.stringify({
+        userName: userName,
+        coinName: coinName,
+        newCoinsInWallet: newCoinsInWallet,
+        newBalance: newBalance,
+      }),
     });
 
     console.log("Response of updateUserSell:", response); // Log the response object
@@ -148,14 +184,14 @@ export async function updateUserSell(userName , coinName,newCoinsInWallet , newB
 export const getUserData = async () => {
   try {
     const userName = localStorage.getItem("userName");
-    console.log("from getUserData :"+userName);
+    console.log("from getUserData :" + userName);
     const response = await fetch(url + "/userData", {
       method: "GET",
       headers: {
         Authorization: userName,
       },
     });
-    console.log("response form getUserData: ",response); // Log the entire response for inspection
+    console.log("response form getUserData: ", response); // Log the entire response for inspection
 
     if (response.ok) {
       const data = await response.json();
@@ -168,7 +204,6 @@ export const getUserData = async () => {
     throw error;
   }
 };
-
 
 // document.getElementById("createData").addEventListener("submit", function (event) {
 //     event.preventDefault();
