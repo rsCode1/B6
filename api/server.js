@@ -99,6 +99,7 @@ app.post("/userExist", async (req, res) => {
     await client.close();
   }
 });
+
 app.post("/register", async (req, res) => {
   try {
     console.log("Check user existence");
@@ -138,6 +139,96 @@ app.post("/register", async (req, res) => {
     await client.close();
   }
 });
+
+app.post("/purchase", async (req, res) => {
+  try {
+    console.log("Applying user purchase");
+    await client.connect();
+    console.log("Connected to database");
+
+    const database = client.db("webTechnologyCourse");
+    const collection = database.collection("users");
+
+    // Extract data from request body
+    const { username, coinAmount, coinName, payment } = req.body;
+
+    // Find the user in the database
+    const user = await collection.findOne({ userName: username });
+    console.log("User found in database:", user);
+
+    // Decrease the user's balance by the payment amount
+    const updatedBalance = user.balance - payment;
+
+    // Check if the coin already exists in the user's coins list
+    const coinIndex = user.coins.findIndex((coin) => coin.coinName === coinName);
+    if (coinIndex !== -1) {
+      // If the coin exists, increase the amount
+      user.coins[coinIndex].amount += parseFloat(coinAmount); // Parse coinAmount to float before addition
+    } else {
+      // If the coin doesn't exist, add it to the list
+      user.coins.push({ coinName: coinName, amount: parseFloat(coinAmount) }); // Parse coinAmount to float
+    }
+
+
+    // Update the user's document in the database
+    await collection.updateOne(
+      { userName: username },
+      { $set: { balance: updatedBalance, coins: user.coins } }
+    );
+
+    console.log("User updated successfully");
+    res.status(200).json({ success: true, message: "Purchase successful" ,balance : updatedBalance });
+  } catch (err) {
+    console.error("Error applying purchase:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  } finally {
+    await client.close();
+  }
+});
+
+app.post("/updateSell", async (req, res) => {
+  try {
+    console.log("Applying user sell action");
+    await client.connect();
+    console.log("Connected to database");
+
+    const database = client.db("webTechnologyCourse");
+    const collection = database.collection("users");
+
+    // Extract data from request body
+    const { userName, coinName, newCoinsInWallet, newBalance } = req.body;
+
+    // Find the user in the database
+    const user = await collection.findOne({ userName: userName });
+    console.log("User found in database:", user);
+
+    // Check if the coin already exists in the user's coins list
+    const coinIndex = user.coins.findIndex((coin) => coin.coinName === coinName);
+    if (coinIndex !== -1) {
+      // If the coin exists, increase the amount
+      user.coins[coinIndex].amount= parseFloat(newCoinsInWallet); // update the new amount of coin in the user data
+    } else {
+      // If the coin doesn't exist, add it to the list
+      throw new Error("no such coin in wallet");
+    }
+
+
+    // Update the user's document in the database
+    await collection.updateOne(
+      { userName: userName }, // Corrected variable name
+      { $set: { balance: newBalance, coins: user.coins } }
+    );
+
+    console.log("User sell action updated successfully");
+    res.status(200).json({ success: true, message: "sell action successful" ,balance : newBalance });
+  } catch (err) {
+    console.error("Error completeing the sell action:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  } finally {
+    await client.close();
+  }
+});
+
 
 
 
@@ -191,6 +282,35 @@ app.get('/profile', (req, res) => {
 
     res.status(200).json({ loggedIn: true, userId: decoded.id });
   });
+});
+
+app.get('/userData', async (req, res)  =>  
+{
+  try {
+    const userName = req.headers.authorization;
+    console.log("from userData:", userName);
+
+    if (!userName) {
+      return res.status(401).json({ success: false, message: 'No userName provided' });
+    }
+    await client.connect();
+    console.log("Connected to database");
+
+    const database = client.db("webTechnologyCourse");
+    const collection = database.collection("users");
+    // Find the user in the database
+    const user = await collection.findOne({ userName: userName });
+
+    console.log("User found in database:", user);
+
+    res.status(200).json({ success: true, message: "user Data Found" ,userData : user });
+  } catch (err) {
+    console.error("Error fetching user Data:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  } finally {
+    await client.close();
+  }
+
 });
 
 

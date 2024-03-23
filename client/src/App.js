@@ -11,11 +11,15 @@ import Home from './pages/home.js';
 import Logout from './pages/logOut.js'
 import { checkActiveToken } from './routes/script.js';
 
+
+
+
 function Navbar() 
 {
   console.log('Navbar component rendered');
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [myBalance, setMyBalance] = useState(false);
+  let userName="";
 
   useEffect(() => {
     const fetchUserStatus = async () => {
@@ -24,20 +28,39 @@ function Navbar()
       console.log(loggedIn);
     };
     fetchUserStatus();
-  }, []);
+  }, [userLoggedIn]);
 
   useEffect(() => {
-    const storedBalance = localStorage.getItem('balance');
-    if (storedBalance !== null && userLoggedIn) {
-      setMyBalance(parseInt(storedBalance));
-    }
-  }, [userLoggedIn]);
+      // Function to handle the storage event
+      const handleStorageChange = () => {
+          const storedBalance = localStorage.getItem('balance');
+          if (storedBalance !== null) {
+              setMyBalance(parseFloat(storedBalance).toFixed(2));
+          }
+      };
+
+      // Add event listener for storage change
+      window.addEventListener('storage', handleStorageChange);
+
+      // Initial balance update
+      handleStorageChange();
+
+      // Cleanup: remove event listener
+      return () => {
+          window.removeEventListener('storage', handleStorageChange);
+      }; 
+  }, []); // Empty dependency array to run the effect only once
+  if(userLoggedIn)
+  {
+    userName = localStorage.getItem("userName");
+  }
+
 
   return (
     <Router>
       <div>
         {/* Navbar */}
-        <nav className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden">
+        <nav className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden" style={{ filter: 'brightness(120%)' }}>
           <div className="flex justify-between items-center py-2">
             <div className="flex items-center">
               {/* Conditionally render Login, SignUp, or Logout based on authentication status */}
@@ -55,7 +78,11 @@ function Navbar()
                   <Link to="/logout" className="nav-link ml-4">
                     Logout
                   </Link>
-                  <div className="nav-link ml-4">Balance: <span style={{ color: myBalance < 0 ? 'red' : myBalance > 0 ? 'green' : 'blue' }}>{myBalance}$</span></div>
+                  <div  className=" ml-20" style={{ color: 'white', fontWeight: 'bold' }} >Balance: <span className="nav-link" style={{ color: myBalance < 0 ? 'red' : myBalance > 0 ? 'green' : 'red' }}>{myBalance}$</span></div>
+                  <div className="ml-1">
+                    <span style={{ color: 'white', fontWeight: 'bold' }}>Hi</span>
+                    <span className="nav-link" style={{ color: 'lightblue' }}>{userName}</span>
+                  </div>
                 </>
               )}
             </div>

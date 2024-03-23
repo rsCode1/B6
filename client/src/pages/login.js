@@ -4,11 +4,6 @@ import { authenticateUser } from '../routes/script.js';
 
 // here is the login ui react component
 // any functionality for the login page will be written here
-let currentUser = null;
-
-export const getCurrentUser = () => currentUser;
-export const resetCurrentUser = () => currentUser = null;
-
 const Login = () => {
   const [userName, setUserName] = useState(""); // Use state hook to manage input value
   const [password, setPassword] = useState("");
@@ -32,9 +27,15 @@ const Login = () => {
         console.log(token);
         localStorage.setItem('authToken', token); //save this token on the local storage
         localStorage.setItem('userName', userName); //save this token on the local storage
-        localStorage.setItem('Balanace', response.balance); //save this token on the local storage
         console.log(response.balance);
-        localStorage.setItem('balance', response.balance);
+        if(response.balance===null)
+        {
+          localStorage.setItem('balance', 0);
+        }
+        else
+        {
+          localStorage.setItem('balance', parseFloat(response.balance));
+        }
         navigate('/');
         window.location.reload();
       }
