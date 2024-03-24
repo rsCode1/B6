@@ -7,6 +7,12 @@ import { getUserData } from '../routes/script.js';
 import { updateUserSell } from '../routes/script.js';
 
 
+/**
+ * Creates a crypto data table component.
+ * Alows the user to buy and sell coins.
+ * 
+ * @returns {JSX.Element} The crypto data table component.
+ */
 function CreateCryptoDataTable() 
 {
   const navigate = useNavigate(); // navigte to login if user is not logged in

@@ -3,6 +3,11 @@ import React, { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { checkActiveToken } from '../routes/script.js';
 
+/**
+ * Learning component displays a page for learning with CryptocurrencyExchange Simulator.
+ * It checks if the user is logged in and navigates to the logout page if not.
+ * It also displays beginner and expert courses on cryptocurrency trading.
+ */
 const Learning = () => {
   const navigate = useNavigate(); // navigte to login if user is not logged in
   useEffect(() => {

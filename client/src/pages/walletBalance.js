@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import { checkActiveToken } from '../routes/script.js';
+import { useNavigate } from "react-router-dom";
+import { checkActiveToken } from "../routes/script.js";
 import { getUserWallet } from "../routes/script.js";
 import { depositFunds } from "../routes/script.js";
 
-// pages/walletBalance.js
-
+/**
+ * Renders a table displaying the user's wallet balance.
+ * The table includes information such as currency, symbol, amount, price, value, and change.
+ * The function fetches the user's wallet data from the server and updates the table accordingly.
+ * If the user is not logged in, it navigates to the logout page.
+ *
+ * @returns {JSX.Element} The JSX element representing the wallet balance table.
+ */
 function CreateUserWalletTable() {
   const navigate = useNavigate(); // navigte to login if user is not logged in
   const [wallet, setWallet] = useState([]);
@@ -18,7 +24,7 @@ function CreateUserWalletTable() {
         const userIsLoggedIn = await checkActiveToken();
         if (!userIsLoggedIn) {
           console.log("Navigating to logout");
-          navigate('/logOut');
+          navigate("/logOut");
           return; // Exit the function if user is not logged in
         }
         const userName = localStorage.getItem("userName");

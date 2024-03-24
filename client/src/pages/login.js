@@ -4,6 +4,11 @@ import { authenticateUser } from '../routes/script.js';
 
 // here is the login ui react component
 // any functionality for the login page will be written here
+/**
+ * Login component for user authentication.
+ *
+ * @returns {JSX.Element} The rendered Login component.
+ */
 const Login = () => {
   const [userName, setUserName] = useState(""); // Use state hook to manage input value
   const [password, setPassword] = useState("");

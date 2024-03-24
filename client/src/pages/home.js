@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import crypto_trade_image from '../images/crypto_trade.jpg';
 
+/**
+ * Creates a table displaying cryptocurrency data fetched from the Coingecko API.
+ * @returns {JSX.Element} The JSX element representing the cryptocurrency data table.
+ */
 function CreateCryptoDataTable() {
   const [fetchData, setFetchData] = useState(null);
 

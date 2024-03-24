@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Logout component.
+ * Handles the logout process and redirects to the home page.
+ */
 const Logout = () => {
     // Use the navigate hook to get the navigate function
     const navigate = useNavigate();

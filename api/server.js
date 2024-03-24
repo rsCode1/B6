@@ -7,16 +7,26 @@ import path from "path";
 import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
 
+//server setup
+//connect to the database
+//create the express app
+//listen to the port 5500
+//create the secret key for the jwt token
+//create the client for the database
+//use the cors to allow the requests from the frontend
+//use the express.json to parse the request body
+//use the express.static to serve the static files
+//use the express-session to create the session for the user
+//create the routes for the deposit, login, register, purchase, sell, profile, userData, AlluserData
+
 const app = express();
 const port = 5500;
 
 const uri =
   "mongodb+srv://cryptoAdmin:admin@webtechnologycourse.hm9v4is.mongodb.net/?retryWrites=true&w=majority&appName=webTechnologyCourse";
-// Remove the unused variable 'database'
-// let database;
+
 const SECRET_KEY = "yourSecretKeyHere";
 
-// Connect to MongoDB outside of the request to reuse the connection
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -34,7 +44,9 @@ app.use(
     cookie: { secure: false }, // Set secure: true if using HTTPS
   })
 );
-
+//handles deposit request
+// query the user from the database
+// update the balance of the user
 app.post("/deposit", async (req, res) => {
   try {
     await client.connect();
@@ -86,6 +98,11 @@ app.post("/walletBalance", async (req, res) => {
     await client.close();
   }
 });
+
+//handles login request
+// query the user from the database
+// check the password
+// create a token and send it to the user
 app.post("/login", async (req, res) => {
   try {
     console.log("login request");
@@ -126,6 +143,9 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//handles register detals validation
+// check if the username is already taken
+// if not taken register the user
 app.post("/userExist", async (req, res) => {
   try {
     console.log("Check user existence");
@@ -154,6 +174,9 @@ app.post("/userExist", async (req, res) => {
   }
 });
 
+//handles register request
+// check if the username is already taken
+// if not taken register the user
 app.post("/register", async (req, res) => {
   try {
     console.log("Check user existence");
@@ -195,6 +218,11 @@ app.post("/register", async (req, res) => {
     await client.close();
   }
 });
+
+//handles purchase request
+// query the user from the database
+// check if the user has enough balance
+// purchase the coin and update the balance
 
 app.post("/purchase", async (req, res) => {
   try {
@@ -247,6 +275,10 @@ app.post("/purchase", async (req, res) => {
   }
 });
 
+//handles sell request
+// query the user from the database
+// check if the user has enough coins
+// sell the coin and update the balance
 app.post("/updateSell", async (req, res) => {
   try {
     console.log("Applying user sell action");
@@ -352,6 +384,9 @@ app.get("/profile", (req, res) => {
   });
 });
 
+// hanldes the user data request
+// query the user from the database
+// send the user data to the user
 app.get("/userData", async (req, res) => {
   try {
     const userName = req.headers.authorization;
@@ -367,7 +402,6 @@ app.get("/userData", async (req, res) => {
 
     const database = client.db("webTechnologyCourse");
     const collection = database.collection("users");
-    // Find the user in the database
     const user = await collection.findOne({ userName: userName });
 
     console.log("User found in database:", user);
@@ -383,56 +417,43 @@ app.get("/userData", async (req, res) => {
   }
 });
 
-app.get('/AlluserData', async (req, res)  =>  
-{
+// hanldes the all user data request
+// query all users from the database
+// send all users data to the user
+app.get("/AlluserData", async (req, res) => {
   try {
     await client.connect();
     console.log("Connected to database");
 
     const database = client.db("webTechnologyCourse");
     const collection = database.collection("users");
-    
+
     const userData = await collection.find({}).toArray(); // take all users and conevt to array
 
     // Extract relevant fields and form user objects
-    const users = userData.map(userDoc => ({
+    const users = userData.map((userDoc) => ({
       _id: userDoc._id,
       userName: userDoc.userName,
       password: userDoc.password,
       balance: userDoc.balance,
-      coins: userDoc.coins
+      coins: userDoc.coins,
     }));
 
-    res.status(200).json({ success: true, message: "user Data Found" ,users : users });
+    res
+      .status(200)
+      .json({ success: true, message: "user Data Found", users: users });
   } catch (err) {
     console.error("Error fetching All users Data:", err);
     res.status(500).json({ success: false, message: "Internal server error" });
   } finally {
     await client.close();
   }
-
 });
 
-
-
-app.get('/', (req, res) => {
-  res.send('Server is working!');
+app.get("/", (req, res) => {
+  res.send("Server is working!");
 });
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
-
-// app.post("/data", async (req, res) => {
-//   try {
-//     await client.connect();
-//     const database = client.db("testdb");
-//     const collection = database.collection("testcollection");
-//     const result = await collection.insertOne(req.body);
-//     res.status(201).json(result.ops[0]);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   } finally {
-//     await client.close();
-//   }
-// });

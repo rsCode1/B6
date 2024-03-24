@@ -5,6 +5,10 @@ import { checkActiveToken } from '../routes/script.js';
 import { getAllUserData } from '../routes/script.js';
 import { sortUsersByBalance } from '../JS/utils.js';
 
+/**
+ * Renders the leaderboard component.
+ * @returns {JSX.Element} The leaderboard component.
+ */
 const Leaderboard = () => {
   const navigate = useNavigate(); // navigte to login if user is not logged in
   const [fetchData, setFetchData] = useState(null);

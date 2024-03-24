@@ -11,6 +11,12 @@ import Home from "./pages/home.js";
 import Logout from "./pages/logOut.js";
 import { checkActiveToken } from "./routes/script.js";
 
+/**
+ * Renders the Navbar component.
+ * The Navbar component displays a navigation bar with links based on the user's authentication status.
+ * It also retrieves and displays the user's balance from local storage.
+ * @returns {JSX.Element} The rendered Navbar component.
+ */
 function Navbar() {
   console.log("Navbar component rendered");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
@@ -173,6 +179,10 @@ function Navbar() {
   );
 }
 
+/**
+ * Renders the footer component.
+ * @returns {JSX.Element} The rendered footer component.
+ */
 function Footer() {
   return (
     <div className=" footer fixed bottom-0 left-0 w-full p-4 text-sm text-left fade-in">
@@ -222,6 +232,11 @@ function Footer() {
   );
 }
 
+/**
+ * Renders the main App component.
+ *
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
   return (
     <div>

@@ -3,6 +3,12 @@ import { userNameAvailable } from '../routes/script.js';
 import { register } from '../routes/script.js';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Renders the SignUp component.
+ * checks if the username is available and if the passwords match
+ * 
+ * @returns {JSX.Element} The SignUp component.
+ */
 function SignUp() {
   const [userName, setUserName] = useState(""); // Use state hook to manage input value
   const [password1, setPassword1] = useState("");
