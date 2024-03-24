@@ -3,59 +3,59 @@
 @tailwind utilities;
 
 body {
-    background-image: url('../src/images/header.png');
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    margin: 0; /* Remove default margin */
-  }
+  background-image: url("../src/images/header.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  margin: 0; /* Remove default margin */
+}
 
-  .nav-link {
-    text-decoration: none; /* Remove underline */
-    color: #ffffff; /* Text color */
-    font-size: 16px; /* Font size */
-    font-weight: bold; /* Font weight */
-    padding: 10px 16px; /* Padding around the text */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
-  }
-  
-  .nav-link:hover {
-    color: #00bcd4; /* Change color on hover */
-  }
+.nav-link {
+  text-decoration: none; /* Remove underline */
+  color: #ffffff; /* Text color */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Font weight */
+  padding: 10px 16px; /* Padding around the text */
+  transition: color 0.3s ease; /* Smooth color transition on hover */
+}
 
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1rem;
-    text-align: left;
-    background-color: #1a1a1a; /* Dark background color */
-    color: #fff; /* Text color */
-    font-size: 0.875rem; /* Adjust font size as needed */
-  }
-  /* Coin Table Styles */
+.nav-link:hover {
+  color: #00bcd4; /* Change color on hover */
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  text-align: left;
+  background-color: #1a1a1a; /* Dark background color */
+  color: #fff; /* Text color */
+  font-size: 0.875rem; /* Adjust font size as needed */
+}
+/* Coin Table Styles */
 /* index.css */
 
 /* index.css */
 table {
-    border-collapse: collapse;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
+  border-collapse: collapse;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
 }
 
 th,
 td {
-    border: 2px solid #a678ec;
-    text-align: center;
-    padding: 8px;
+  border: 2px solid #a678ec;
+  text-align: center;
+  padding: 8px;
 }
 
 th {
-    background-color: #000000;
-    font-weight: bold;
-    box-shadow: 0cm 0cm 0.5cm #a678ec;
+  background-color: #000000;
+  font-weight: bold;
+  box-shadow: 0cm 0cm 0.5cm #a678ec;
 }
 
 .messageContainer {
@@ -65,9 +65,9 @@ th {
 }
 
 .disabled-link {
-  color: gray;        /* Adjust the color to make it look disabled */
-  pointer-events: none;  /* Disable pointer events to make it unclickable */
-  text-decoration: none;  /* Remove underline or any other decoration */
+  color: gray; /* Adjust the color to make it look disabled */
+  pointer-events: none; /* Disable pointer events to make it unclickable */
+  text-decoration: none; /* Remove underline or any other decoration */
 }
 
 .buy-button {
@@ -96,7 +96,6 @@ th {
   background-color: #3182ce;
 }
 
-
 .number-input {
   appearance: none;
   -moz-appearance: textfield;
@@ -115,15 +114,3 @@ th {
   border-color: #51ff00;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
-
-
-
-
-
-
-
-  
-  
-  
-  
-  
