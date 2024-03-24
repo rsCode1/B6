@@ -10,30 +10,30 @@ import { useNavigate } from 'react-router-dom';
  * @returns {JSX.Element} The SignUp component.
  */
 function SignUp() {
-  const [userName, setUserName] = useState(""); // Use state hook to manage input value
+  const [userName, setUserName] = useState(""); 
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [signUpMessage, setMessage] = useState("");
   const navigate = useNavigate(); // navigte to home
   const OnSignUp = async (event) => {
     
-    event.preventDefault(); // Prevents the default form submission behavior
-    let okToSignUp = true; // Initialize a variable to track if it's okay to sign up
+    event.preventDefault(); 
+    let okToSignUp = true; 
 
     try 
     {
-      const response = await userNameAvailable(userName); // Checking if the username is available
+      const response = await userNameAvailable(userName); 
       let msg=""
       if (response === false) {
-        msg = "Username already taken.\n"; // If the username is not available, set an appropriate message
-        okToSignUp = false; // Set okToSignUp to false since username is not available
+        msg = "Username already taken.\n"; // If the username is not available,
+        okToSignUp = false; 
         
       }
       else if (password1 !== password2) {
         msg = "Passwords do not match.\n"; // If passwords don't match, append message
-        okToSignUp = false; // Set okToSignUp to false since passwords don't match
+        okToSignUp = false; 
       }
-      // Replace newline characters with <br> tags
+
       
       setMessage(msg);
     
@@ -44,7 +44,6 @@ function SignUp() {
   
         if (response.registerStatus === true) 
         {
-          // Move the showPopup function call here
           alert('You have successfully registered. Welcome to the Cryptocurrency market trade!');
           navigate("/");
         } else {
@@ -80,8 +79,8 @@ function SignUp() {
             id="userName2"
             type="text"
             placeholder="User Name"
-            defaultValue={userName} // Use defaultValue instead of value
-            onChange={(e) => setUserName(e.target.value)} // Set the state on change
+            defaultValue={userName} 
+            onChange={(e) => setUserName(e.target.value)} 
           />
         </div>
         {/* Password1 */}
@@ -91,8 +90,8 @@ function SignUp() {
             id="password2"
             type="text"
             placeholder="Password"
-            defaultValue={password1} // Use defaultValue instead of value
-            onChange={(e) => setPassword1(e.target.value)} // Set the state on change
+            defaultValue={password1} 
+            onChange={(e) => setPassword1(e.target.value)} 
           />
         </div>
         {/* Password2 */}
@@ -102,8 +101,8 @@ function SignUp() {
             id="password3"
             type="text"
             placeholder="Password"
-            defaultValue={password2} // Use defaultValue instead of value
-            onChange={(e) => setPassword2(e.target.value)} // Set the state on change
+            defaultValue={password2} 
+            onChange={(e) => setPassword2(e.target.value)} 
           />
         </div>
         {/* Signup Button */}
@@ -122,5 +121,4 @@ function SignUp() {
 }
 
 
-// Export the function, not its invocation
 export default SignUp;

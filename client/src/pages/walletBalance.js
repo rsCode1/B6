@@ -14,7 +14,7 @@ import { depositFunds } from "../routes/script.js";
  * @returns {JSX.Element} The JSX element representing the wallet balance table.
  */
 function CreateUserWalletTable() {
-  const navigate = useNavigate(); // navigte to login if user is not logged in
+  const navigate = useNavigate();
   const [wallet, setWallet] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +25,7 @@ function CreateUserWalletTable() {
         if (!userIsLoggedIn) {
           console.log("Navigating to logout");
           navigate("/logOut");
-          return; // Exit the function if user is not logged in
+          return;
         }
         const userName = localStorage.getItem("userName");
         const response = await getUserWallet(userName);
@@ -64,7 +64,6 @@ function CreateUserWalletTable() {
         }
       );
 
-      // Create a map for quick access
       const coinDataMap = response.data.reduce((map, coin) => {
         map[coin.id] = coin;
         return map;
@@ -89,7 +88,6 @@ function CreateUserWalletTable() {
       setWallet(updatedWallet);
     } catch (error) {
       console.error("Error fetching coin prices and symbols:", error);
-      // Handle the error appropriately
     }
   };
 
@@ -137,9 +135,8 @@ const DepositFundsButton = () => {
     const userName = localStorage.getItem("userName");
     const response = await depositFunds(userName, amount);
     if (response.success) {
-      // Assuming 'response.newBalance' contains the updated balance
       localStorage.setItem("balance", response.balance);
-      window.dispatchEvent(new Event("storage")); // This line will trigger the storage event listener
+      window.dispatchEvent(new Event("storage"));
     }
     setMessage(response.message);
     setIsSuccess(response.success);

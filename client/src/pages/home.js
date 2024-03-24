@@ -17,7 +17,7 @@ function CreateCryptoDataTable() {
         setFetchData(data);
       })
       .catch(error => console.error('Error fetching data:', error));
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+  }, []); 
 
   return (
     <div className="container mx-auto mt-0">

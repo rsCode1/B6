@@ -24,15 +24,15 @@ const Leaderboard = () => {
           return; // Exit the function if user is not logged in
         }
   
-        const userName = localStorage.getItem("userName"); // the user name
-        const response = await getAllUserData(userName); // fetach the data of the user name
+        const userName = localStorage.getItem("userName"); 
+        const response = await getAllUserData(userName); 
         if (!response.success) 
         {
-          throw new Error(response.message); // Throw an error with the message from the response
+          throw new Error(response.message); 
         }
         console.log('from leaderBorad Fetch response:', response);
-        setFetchData(sortUsersByBalance(response.users)); // sort the users according  
-        setLoading(false); // Set loading to false after data fetching is complete
+        setFetchData(sortUsersByBalance(response.users)); 
+        setLoading(false); 
       } catch (error) {
         console.error('Error fetching data:', error);
       }

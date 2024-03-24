@@ -120,7 +120,7 @@ app.post("/login", async (req, res) => {
     console.log("user: " + user);
     if (user && user.password === password) {
       let token = null;
-      token = generateToken(user); // create a token to the user this token will be avaible for 30min after the it will be invalid and user considered as logged out
+      token = generateToken(user);
       console.log(token);
       res.status(200).json({
         success: true,
@@ -189,17 +189,15 @@ app.post("/register", async (req, res) => {
     const collection = database.collection("users");
     console.log("Connected to collection");
 
-    // Extract data from request body
     const { userName, password } = req.body;
 
-    // Default values for coins array and balance
+    // Default values for new user
     const coins = [
       { coinName: "Bitcoin", amount: 1.2 },
       { coinName: "Litecoin", amount: 10 },
     ];
     const balance = 1000;
 
-    // Create user object
     const user = {
       password,
       balance,
@@ -207,9 +205,7 @@ app.post("/register", async (req, res) => {
       userName,
     };
 
-    // Insert user into the database
     await collection.insertOne(user);
-    // Respond with success message
     res
       .status(200)
       .json({ registerStatus: true, message: "User registered successfully" });
@@ -235,29 +231,22 @@ app.post("/purchase", async (req, res) => {
     const database = client.db("webTechnologyCourse");
     const collection = database.collection("users");
 
-    // Extract data from request body
     const { username, coinAmount, coinName, payment } = req.body;
 
-    // Find the user in the database
     const user = await collection.findOne({ userName: username });
     console.log("User found in database:", user);
 
-    // Decrease the user's balance by the payment amount
     const updatedBalance = user.balance - payment;
 
-    // Check if the coin already exists in the user's coins list
     const coinIndex = user.coins.findIndex(
       (coin) => coin.coinName === coinName
     );
     if (coinIndex !== -1) {
-      // If the coin exists, increase the amount
-      user.coins[coinIndex].amount += parseFloat(coinAmount); // Parse coinAmount to float before addition
+      user.coins[coinIndex].amount += parseFloat(coinAmount);
     } else {
-      // If the coin doesn't exist, add it to the list
-      user.coins.push({ coinName: coinName, amount: parseFloat(coinAmount) }); // Parse coinAmount to float
+      user.coins.push({ coinName: coinName, amount: parseFloat(coinAmount) });
     }
 
-    // Update the user's document in the database
     await collection.updateOne(
       { userName: username },
       { $set: { balance: updatedBalance, coins: user.coins } }
@@ -290,28 +279,22 @@ app.post("/updateSell", async (req, res) => {
     const database = client.db("webTechnologyCourse");
     const collection = database.collection("users");
 
-    // Extract data from request body
     const { userName, coinName, newCoinsInWallet, newBalance } = req.body;
 
-    // Find the user in the database
     const user = await collection.findOne({ userName: userName });
     console.log("User found in database:", user);
 
-    // Check if the coin already exists in the user's coins list
     const coinIndex = user.coins.findIndex(
       (coin) => coin.coinName === coinName
     );
     if (coinIndex !== -1) {
-      // If the coin exists, increase the amount
-      user.coins[coinIndex].amount = parseFloat(newCoinsInWallet); // update the new amount of coin in the user data
+      user.coins[coinIndex].amount = parseFloat(newCoinsInWallet);
     } else {
-      // If the coin doesn't exist, add it to the list
       throw new Error("no such coin in wallet");
     }
 
-    // Update the user's document in the database
     await collection.updateOne(
-      { userName: userName }, // Corrected variable name
+      { userName: userName },
       { $set: { balance: newBalance, coins: user.coins } }
     );
 
@@ -330,7 +313,6 @@ app.post("/updateSell", async (req, res) => {
 });
 
 const generateToken = (user) => {
-  // Replace 'YOUR_SECRET_KEY' with your actual secret key
   const secretKey = SECRET_KEY;
 
   console.log("Secret Key:", secretKey);
@@ -350,10 +332,14 @@ const generateToken = (user) => {
     return token;
   } catch (error) {
     console.error("Error generating token:", error);
-    throw error; // Rethrow the error to handle it outside this function
+    throw error;
   }
 };
-// when calling this API, send the token in the request headers
+
+//handles the profile request
+// check if the token is provided
+// verify the token
+// send the user id to the user
 app.get("/profile", (req, res) => {
   const tokenHeader = req.headers.authorization;
 
@@ -363,15 +349,11 @@ app.get("/profile", (req, res) => {
       .json({ loggedIn: false, message: "No token provided" });
   }
 
-  const token = tokenHeader.split(" ")[1]; // Extract the token from the Authorization header
-
-  // Debugging: Log the received token
+  const token = tokenHeader.split(" ")[1];
   console.log("Received Token:", tokenHeader);
 
-  // Verify the token using the actual secret key
   jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
-      // Debugging: Log the error
       console.error("Error verifying token:", err);
 
       return res
@@ -379,7 +361,6 @@ app.get("/profile", (req, res) => {
         .json({ loggedIn: false, message: "Failed to authenticate token" });
     }
 
-    // Debugging: Log the decoded information
     console.log("Decoded Token:", decoded);
 
     res.status(200).json({ loggedIn: true, userId: decoded.id });
@@ -430,9 +411,8 @@ app.get("/AlluserData", async (req, res) => {
     const database = client.db("webTechnologyCourse");
     const collection = database.collection("users");
 
-    const userData = await collection.find({}).toArray(); // take all users and conevt to array
+    const userData = await collection.find({}).toArray();
 
-    // Extract relevant fields and form user objects
     const users = userData.map((userDoc) => ({
       _id: userDoc._id,
       userName: userDoc.userName,

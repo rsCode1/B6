@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authenticateUser } from '../routes/script.js';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authenticateUser } from "../routes/script.js";
 
 // here is the login ui react component
 // any functionality for the login page will be written here
@@ -10,10 +10,10 @@ import { authenticateUser } from '../routes/script.js';
  * @returns {JSX.Element} The rendered Login component.
  */
 const Login = () => {
-  const [userName, setUserName] = useState(""); // Use state hook to manage input value
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginMessage, setMessage] = useState("");
-  const navigate = useNavigate(); // navigte to home
+  const navigate = useNavigate();
 
   const signIn = async (event) => {
     event.preventDefault();
@@ -24,33 +24,32 @@ const Login = () => {
       if (response.success === false) {
         setMessage(response.message);
         console.log(response.message);
-      }
-      else // a session created on the server side so now this user is recignize via the session he got from server
-      {
+      } // a session created on the server side so now this user is recignize via the session he got from server
+      else {
         console.log(response);
-        token = response.token;  // take the toekn for the user this token will be avail for 10m
+        token = response.token; // take the toekn for the user this token will be avail for 10m
         console.log(token);
-        localStorage.setItem('authToken', token); //save this token on the local storage
-        localStorage.setItem('userName', userName); //save this token on the local storage
+        localStorage.setItem("authToken", token); //save this token on the local storage
+        localStorage.setItem("userName", userName); //save this token on the local storage
         console.log(response.balance);
-        if(response.balance===null)
-        {
-          localStorage.setItem('balance', 0);
+        if (response.balance === null) {
+          localStorage.setItem("balance", 0);
+        } else {
+          localStorage.setItem("balance", parseFloat(response.balance));
         }
-        else
-        {
-          localStorage.setItem('balance', parseFloat(response.balance));
-        }
-        navigate('/');
+        navigate("/");
         window.location.reload();
       }
     } catch (error) {
-      console.error('Error during authentication:', error);
+      console.error("Error during authentication:", error);
     }
   };
 
   return (
-    <div id="logInTitle" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto max-w-md overflow-y-hidden">
+    <div
+      id="logInTitle"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mx-auto max-w-md overflow-y-hidden"
+    >
       <h1 className="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left">
         Already
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">
@@ -60,15 +59,19 @@ const Login = () => {
       </h1>
 
       {/* Login Form */}
-      <form id="loginForm" onSubmit={signIn} className="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
+      <form
+        id="loginForm"
+        onSubmit={signIn}
+        className="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+      >
         <div className="mb-4">
           {/* User Name */}
           <input
             className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
             type="text"
             placeholder="User Name"
-            defaultValue={userName} // Use defaultValue instead of value
-            onChange={(e) => setUserName(e.target.value)} // Set the state on change
+            defaultValue={userName}
+            onChange={(e) => setUserName(e.target.value)}
           />
         </div>
         {/* Password1 */}
@@ -77,8 +80,8 @@ const Login = () => {
             className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
             type="password"
             placeholder="Password"
-            defaultValue={password} // Use defaultValue instead of value
-            onChange={(e) => setPassword(e.target.value)} // Set the state on change
+            defaultValue={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         {/* Login Button */}
@@ -96,4 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login; // Don't forget to export the component
+export default Login;

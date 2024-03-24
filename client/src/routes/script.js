@@ -19,8 +19,8 @@ export function authenticateUser(userName, password) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // Log the server response
-      return data; // Return the server response
+      console.log(data);
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -47,8 +47,8 @@ export function depositFunds(userName, amount) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // Log the server response
-      return data; // Return the server response
+      console.log(data);
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -73,8 +73,8 @@ export function getUserWallet(userName) {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // Log the server response
-      return data; // Return the server response
+      console.log(data);
+      return data;
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -96,20 +96,18 @@ export const checkActiveToken = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response); // Log the entire response for inspection
+    console.log(response);
 
     if (response.ok) {
       const data = await response.json();
       return data.loggedIn;
     } else {
       console.error(`Error: ${response.status} - ${response.statusText}`);
-      // Handle other errors if needed
       return false;
     }
   } catch (error) {
     console.error("Error:", error);
     return false;
-    // Handle fetch errors if needed
   }
 };
 
@@ -129,17 +127,17 @@ export async function userNameAvailable(userName) {
       body: JSON.stringify({ username: userName }),
     });
 
-    console.log("Response:", response); // Log the response object
+    console.log("Response:", response);
 
     if (response.ok) {
-      const data = await response.json(); // Get JSON response
-      return data.validName; // Return whether username is valid or not
+      const data = await response.json();
+      return data.validName;
     } else {
-      throw new Error("Network response was not ok"); // Throw error for other status codes
+      throw new Error("Network response was not ok");
     }
   } catch (error) {
     console.error("Error checking username availability:", error);
-    throw error; // Rethrow the error to be handled by the caller
+    throw error;
   }
 }
 
@@ -157,20 +155,20 @@ export async function register(userName, password) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userName: userName, password: password }), // Corrected typo here
+      body: JSON.stringify({ userName: userName, password: password }),
     });
 
-    console.log("Response:", response); // Log the response object
+    console.log("Response:", response);
 
     if (response.ok) {
-      const data = await response.json(); // Get JSON response
+      const data = await response.json();
       return data;
     } else {
-      throw new Error("Network response was not ok"); // Throw error for other status codes
+      throw new Error("Network response was not ok");
     }
   } catch (error) {
     console.error("Error registering username:", error);
-    throw error; // Rethrow the error to be handled by the caller
+    throw error;
   }
 }
 
@@ -198,17 +196,17 @@ export async function purchase(userName, coinAmount, coinName, payment) {
       }),
     });
 
-    console.log("Response of purchase:", response); // Log the response object
+    console.log("Response of purchase:", response);
 
     if (response.ok) {
-      const data = await response.json(); // Get JSON response
+      const data = await response.json();
       return data;
     } else {
-      throw new Error("Network response was not ok"); // Throw error for other status codes
+      throw new Error("Network response was not ok");
     }
   } catch (error) {
     console.error("Error completing the purchase:", error);
-    throw error; // Rethrow the error to be handled by the caller
+    throw error;
   }
 }
 
@@ -241,17 +239,17 @@ export async function updateUserSell(
       }),
     });
 
-    console.log("Response of updateUserSell:", response); // Log the response object
+    console.log("Response of updateUserSell:", response);
 
     if (response.ok) {
-      const data = await response.json(); // Get JSON response
+      const data = await response.json();
       return data;
     } else {
-      throw new Error("Network response was not ok"); // Throw error for other status codes
+      throw new Error("Network response was not ok");
     }
   } catch (error) {
     console.error("Error completing the sell action:", error);
-    throw error; // Rethrow the error to be handled by the caller
+    throw error;
   }
 }
 
@@ -270,7 +268,7 @@ export const getUserData = async () => {
         Authorization: userName,
       },
     });
-    console.log("response form getUserData: ", response); // Log the entire response for inspection
+    console.log("response form getUserData: ", response);
 
     if (response.ok) {
       const data = await response.json();
@@ -294,7 +292,7 @@ export const getAllUserData = async () => {
     const response = await fetch(url + "/AlluserData", {
       method: "GET",
     });
-    console.log("response form getAllUserData: ", response); // Log the entire response for inspection
+    console.log("response form getAllUserData: ", response);
 
     if (response.ok) {
       const data = await response.json();

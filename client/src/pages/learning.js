@@ -17,7 +17,7 @@ const Learning = () => {
         if (!userIsLoggedIn) {
           console.log("Navigating to logout");
           navigate('/logOut');
-          return; // Exit the function if user is not logged in
+          return; 
         }
       } catch (error) {
         console.error('Error fetching data:', error);

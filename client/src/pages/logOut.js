@@ -6,17 +6,15 @@ import { useNavigate } from 'react-router-dom';
  * Handles the logout process and redirects to the home page.
  */
 const Logout = () => {
-    // Use the navigate hook to get the navigate function
     const navigate = useNavigate();
   
-    // Effect to handle logout when component mounts
     useEffect(() => {
-      // Logout logic
-      localStorage.removeItem('authToken'); // erase the token given to the user from the server
-      navigate('/'); // navigate to the home page
+
+      localStorage.removeItem('authToken'); 
+      navigate('/'); 
          // Reload the entire page
         window.location.reload();
-    }, [navigate]); // Include navigate in the dependency array to prevent eslint warnings
+    }, [navigate]);
   
 
   return (

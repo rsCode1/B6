@@ -15,9 +15,8 @@ import { updateUserSell } from '../routes/script.js';
  */
 function CreateCryptoDataTable() 
 {
-  const navigate = useNavigate(); // navigte to login if user is not logged in
+  const navigate = useNavigate(); 
   const [fetchData, setFetchData] = useState(null);
-  // State variable to store the buy amount
   const [buyAmounts, setBuyAmounts] = useState(Array(30).fill(0));
   const [sellAmounts, setSellAmounts] = useState(Array(30).fill(0));
 
@@ -28,7 +27,7 @@ function CreateCryptoDataTable()
         if (!userIsLoggedIn) {
           console.log("Navigating to logout");
           navigate('/logOut');
-          return; // Exit the function if user is not logged in
+          return; 
         }
   
         const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false&x_cg_demo_api_key');
