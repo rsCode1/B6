@@ -70,7 +70,9 @@ app.post("/deposit", async (req, res) => {
     await client.close();
   }
 });
-
+//handles wallet balance request
+// query the user from the database
+// send the user coins and balance to the user
 app.post("/walletBalance", async (req, res) => {
   try {
     await client.connect();
