@@ -1,4 +1,4 @@
-const url = "http://localhost:5500"; //for debug use "http://localhost:5500"
+const url = "https://b6-hkrb.onrender.com"; //for debug use "http://localhost:5500"
 export function authenticateUser(userName, password) {
   return fetch(url + "/login", {
     method: "POST",
@@ -8,6 +8,28 @@ export function authenticateUser(userName, password) {
     body: JSON.stringify({
       username: userName,
       password: password,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Log the server response
+      return data; // Return the server response
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      return { success: false, message: "Error during authentication" };
+    });
+}
+
+export function depositFunds(userName, amount) {
+  return fetch(url + "/deposit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: userName,
+      amount: amount,
     }),
   })
     .then((response) => response.json())

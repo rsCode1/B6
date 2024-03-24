@@ -35,6 +35,30 @@ app.use(
   })
 );
 
+app.post("/deposit", async (req, res) => {
+  try {
+    await client.connect();
+    const database = client.db("webTechnologyCourse");
+    const collection = database.collection("users");
+    const { username, amount } = req.body;
+    const user = await collection.findOne({ userName: username });
+    const updatedBalance = user.balance + parseFloat(amount);
+    await collection.updateOne(
+      { userName: username },
+      { $set: { balance: updatedBalance } }
+    );
+    res.status(200).json({
+      success: true,
+      message: `Deposited ${amount}$ successfully\n`,
+      balance: updatedBalance,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  } finally {
+    await client.close();
+  }
+});
+
 app.post("/walletBalance", async (req, res) => {
   try {
     await client.connect();
