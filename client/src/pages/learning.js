@@ -1,7 +1,26 @@
 // pages/learning.js
-import React from 'react';
+import React, { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import { checkActiveToken } from '../routes/script.js';
 
 const Learning = () => {
+  const navigate = useNavigate(); // navigte to login if user is not logged in
+  useEffect(() => {
+    const CheckUserLogin = async () => {
+      try {
+        const userIsLoggedIn = await checkActiveToken();
+        if (!userIsLoggedIn) {
+          console.log("Navigating to logout");
+          navigate('/logOut');
+          return; // Exit the function if user is not logged in
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    CheckUserLogin();
+  }, [navigate]);
   return (
     <div>
       <div className="my_container mx-auto mt-10 pb-5">

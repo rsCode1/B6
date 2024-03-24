@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { checkActiveToken } from '../routes/script.js';
 import { getUserWallet } from "../routes/script.js";
 import { depositFunds } from "../routes/script.js";
 
 // pages/walletBalance.js
 
 function CreateUserWalletTable() {
+  const navigate = useNavigate(); // navigte to login if user is not logged in
   const [wallet, setWallet] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserWallet = async () => {
       try {
+        const userIsLoggedIn = await checkActiveToken();
+        if (!userIsLoggedIn) {
+          console.log("Navigating to logout");
+          navigate('/logOut');
+          return; // Exit the function if user is not logged in
+        }
         const userName = localStorage.getItem("userName");
         const response = await getUserWallet(userName);
         if (response && response.userCoins) {
@@ -27,7 +36,7 @@ function CreateUserWalletTable() {
     };
 
     fetchUserWallet();
-  }, []);
+  }, [navigate]);
 
   const fetchCoinPrices = async (userCoins) => {
     const coinIDs = userCoins
