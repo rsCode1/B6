@@ -1,25 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import 'tailwindcss/tailwind.css';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import Login from './pages/login.js';
-import SignUp from './pages/signUp.js';
-import Leaderboard from './pages/leaderboard.js';
-import Learning from './pages/learning.js';
-import MarketTable from './pages/marketTable.js';
-import WalletBalance from './pages/walletBalance.js';
-import Home from './pages/home.js';
-import Logout from './pages/logOut.js'
-import { checkActiveToken } from './routes/script.js';
+import React, { useState, useEffect } from "react";
+import "tailwindcss/tailwind.css";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import Login from "./pages/login.js";
+import SignUp from "./pages/signUp.js";
+import Leaderboard from "./pages/leaderboard.js";
+import Learning from "./pages/learning.js";
+import MarketTable from "./pages/marketTable.js";
+import WalletBalance from "./pages/walletBalance.js";
+import Home from "./pages/home.js";
+import Logout from "./pages/logOut.js";
+import { checkActiveToken } from "./routes/script.js";
 
-
-
-
-function Navbar() 
-{
-  console.log('Navbar component rendered');
+function Navbar() {
+  console.log("Navbar component rendered");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [myBalance, setMyBalance] = useState(false);
-  let userName="";
+  let userName = "";
 
   useEffect(() => {
     const fetchUserStatus = async () => {
@@ -31,36 +27,37 @@ function Navbar()
   }, [userLoggedIn]);
 
   useEffect(() => {
-      // Function to handle the storage event
-      const handleStorageChange = () => {
-          const storedBalance = localStorage.getItem('balance');
-          if (storedBalance !== null) {
-              setMyBalance(parseFloat(storedBalance).toFixed(2));
-          }
-      };
+    // Function to handle the storage event
+    const handleStorageChange = () => {
+      const storedBalance = localStorage.getItem("balance");
+      if (storedBalance !== null) {
+        setMyBalance(parseFloat(storedBalance).toFixed(2));
+      }
+    };
 
-      // Add event listener for storage change
-      window.addEventListener('storage', handleStorageChange);
+    // Add event listener for storage change
+    window.addEventListener("storage", handleStorageChange);
 
-      // Initial balance update
-      handleStorageChange();
+    // Initial balance update
+    handleStorageChange();
 
-      // Cleanup: remove event listener
-      return () => {
-          window.removeEventListener('storage', handleStorageChange);
-      }; 
+    // Cleanup: remove event listener
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []); // Empty dependency array to run the effect only once
-  if(userLoggedIn)
-  {
+  if (userLoggedIn) {
     userName = localStorage.getItem("userName");
   }
-
 
   return (
     <Router>
       <div>
         {/* Navbar */}
-        <nav className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden" style={{ filter: 'brightness(120%)' }}>
+        <nav
+          className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden"
+          style={{ filter: "brightness(120%)" }}
+        >
           <div className="flex justify-between items-center py-2">
             <div className="flex items-center">
               {/* Conditionally render Login, SignUp, or Logout based on authentication status */}
@@ -78,10 +75,32 @@ function Navbar()
                   <Link to="/logout" className="nav-link ml-4">
                     Logout
                   </Link>
-                  <div  className=" ml-20" style={{ color: 'white', fontWeight: 'bold' }} >Balance: <span className="nav-link" style={{ color: myBalance < 0 ? 'red' : myBalance > 0 ? 'green' : 'red' }}>{myBalance}$</span></div>
+                  <div
+                    className=" ml-20"
+                    style={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Balance:{" "}
+                    <span
+                      className="nav-link"
+                      style={{
+                        color:
+                          myBalance < 0
+                            ? "red"
+                            : myBalance > 0
+                            ? "green"
+                            : "red",
+                      }}
+                    >
+                      {myBalance}$
+                    </span>
+                  </div>
                   <div className="ml-1">
-                    <span style={{ color: 'white', fontWeight: 'bold' }}>Hi</span>
-                    <span className="nav-link" style={{ color: 'lightblue' }}>{userName}</span>
+                    <span style={{ color: "white", fontWeight: "bold" }}>
+                      Hi
+                    </span>
+                    <span className="nav-link" style={{ color: "lightblue" }}>
+                      {userName}
+                    </span>
                   </div>
                 </>
               )}
@@ -93,16 +112,25 @@ function Navbar()
                   <Link to="/" className="nav-link">
                     Home
                   </Link>
-                  <Link to="/leaderboard" className="nav-link ml-4 disabled-link">
+                  <Link
+                    to="/leaderboard"
+                    className="nav-link ml-4 disabled-link"
+                  >
                     Leaderboard
                   </Link>
                   <Link to="/learning" className="nav-link ml-4 disabled-link">
                     Learning
                   </Link>
-                  <Link to="/markettable" className="nav-link ml-4 disabled-link">
+                  <Link
+                    to="/markettable"
+                    className="nav-link ml-4 disabled-link"
+                  >
                     Market Table
                   </Link>
-                  <Link to="/walletbalance" className="nav-link ml-4 disabled-link">
+                  <Link
+                    to="/walletbalance"
+                    className="nav-link ml-4 disabled-link"
+                  >
                     Wallet Balance
                   </Link>
                 </>
@@ -131,7 +159,6 @@ function Navbar()
 
         {/* Routes */}
         <Routes>
-          
           <Route path="/" element={<Home />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/login" element={<Login />} />
@@ -146,48 +173,62 @@ function Navbar()
   );
 }
 
-
-
 function Footer() {
   return (
     <div className=" footer fixed bottom-0 left-0 w-full p-4 text-sm text-left fade-in">
       <div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" id="logoutButton" hidden>
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+          id="logoutButton"
+          hidden
+        >
           Log Out
         </button>
       </div>
       {/* Copyright Information */}
-      <a className="text-gray-500 no-underline hover:no-underline" href="OUR GIT HUB">
+      <a
+        className="text-gray-500 no-underline hover:no-underline"
+        href="OUR GIT HUB"
+      >
         &copy; App 2024
       </a>
       - Project by
       {/* Contributors' Links */}
-      <a className="text-gray-500 no-underline hover:no-underline" href="https://github.com/AxFISR">
+      <a
+        className="text-gray-500 no-underline hover:no-underline"
+        href="https://github.com/AxFISR"
+      >
         Alex,
       </a>
-      <a className="text-gray-500 no-underline hover:no-underline" href="https://github.com/">
+      <a
+        className="text-gray-500 no-underline hover:no-underline"
+        href="https://github.com/rsCode1"
+      >
         Roi,
       </a>
-      <a className="text-gray-500 no-underline hover:no-underline" href="https://github.com/">
+      <a
+        className="text-gray-500 no-underline hover:no-underline"
+        href="https://github.com/"
+      >
         Shimron,
       </a>
-      <a className="text-gray-500 no-underline hover:no-underline" href="https://github.com/">
+      <a
+        className="text-gray-500 no-underline hover:no-underline"
+        href="https://github.com/"
+      >
         Daniel
       </a>
     </div>
   );
 }
 
-
-function App() 
-{
+function App() {
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <Footer />
     </div>
   );
 }
-
 
 export default App;

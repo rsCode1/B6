@@ -1,62 +1,184 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { getUserWallet } from "../routes/script.js";
+import { depositFunds } from "../routes/script.js";
+
 // pages/walletBalance.js
-import React, { useState, useEffect } from 'react';
 
-
-function CreateCryptoDataTable() {
-  const [fetchData, setFetchData] = useState(null);
+function CreateUserWalletTable() {
+  const [wallet, setWallet] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false&x_cg_demo_api_key')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Fetch Data:', data);
-        setFetchData(data);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []); // Empty dependency array to run the effect only once when the component mounts
+    const fetchUserWallet = async () => {
+      try {
+        const userName = localStorage.getItem("userName");
+        const response = await getUserWallet(userName);
+        if (response && response.userCoins) {
+          setWallet(response.userCoins);
+          await fetchCoinPrices(response.userCoins);
+        } else {
+          // handle no coins case
+        }
+      } catch (error) {
+        console.error("Error fetching user wallet:", error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchUserWallet();
+  }, []);
+
+  const fetchCoinPrices = async (userCoins) => {
+    const coinIDs = userCoins
+      .map((coin) => coin.coinName.toLowerCase())
+      .join(",");
+
+    try {
+      const response = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/markets`,
+        {
+          params: {
+            vs_currency: "usd",
+            ids: coinIDs,
+            order: "market_cap_desc",
+            per_page: userCoins.length,
+            page: 1,
+            sparkline: false,
+          },
+        }
+      );
+
+      // Create a map for quick access
+      const coinDataMap = response.data.reduce((map, coin) => {
+        map[coin.id] = coin;
+        return map;
+      }, {});
+
+      // Map the API data back to the wallet state
+      const updatedWallet = userCoins.map((coin) => {
+        const liveData = coinDataMap[coin.coinName.toLowerCase()] || {};
+        return {
+          ...coin,
+          symbol: liveData.symbol, // Get the symbol from the response
+          price: liveData.current_price || "N/A",
+          value: liveData.current_price
+            ? (coin.amount * liveData.current_price).toFixed(2)
+            : "N/A",
+          change: liveData.price_change_percentage_24h
+            ? liveData.price_change_percentage_24h.toFixed(2)
+            : "N/A",
+        };
+      });
+
+      setWallet(updatedWallet);
+    } catch (error) {
+      console.error("Error fetching coin prices and symbols:", error);
+      // Handle the error appropriately
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="container mx-auto mt-0">
-      <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">Coin value</h3>
-      {fetchData ? (
-        <table className="table">
-          <thead>
-            <tr>
-              {/* create all the columns */}
-              <th className="py-2 px-4 border-b">Number</th>
-              <th className="py-2 px-4 border-b">Coin</th>
-              <th className="py-2 px-4 border-b">Symbol</th>
-              <th className="py-2 px-4 border-b">Price (USD)</th>
-              <th className="py-2 px-4 border-b">Change (24h %)</th>
-              <th className="py-2 px-4 border-b">High (24h)</th>
-              <th className="py-2 px-4 border-b">Low (24h)</th>
-            </tr>
-          </thead>
-          <tbody>
-          {fetchData.map((coinData, index) => index < 5 && (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{index + 1}</td>
-                <td className="py-2 px-4 border-b">{coinData.name}</td>
-                <td className="py-2 px-4 border-b">{coinData.symbol.toUpperCase()}</td>
-                <td className="py-2 px-4 border-b">{coinData.current_price}</td>
-                <td className="py-2 px-4 border-b">{coinData.price_change_percentage_24h}</td>
-                <td className="py-2 px-4 border-b">{coinData.high_24h}</td>
-                <td className="py-2 px-4 border-b">{coinData.low_24h}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <table className="table-auto">
+      <thead>
+        <tr>
+          <th className="px-4 py-2">Currency</th>
+          <th className="px-4 py-2">Symbol</th>
+          <th className="px-4 py-2">Amount</th>
+          <th className="px-4 py-2">Price (USD)</th>
+          <th className="px-4 py-2">Value (USD)</th>
+          <th className="px-4 py-2">Change (24h%)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {wallet.map((coin, index) => (
+          <tr key={index}>
+            <td className="border px-4 py-2">{coin.coinName}</td>
+            <td className="border px-4 py-2">
+              {coin.symbol ? coin.symbol.toUpperCase() : ""}
+            </td>
+            <td className="border px-4 py-2">{coin.amount}</td>
+            <td className="border px-4 py-2">{coin.price}</td>
+            <td className="border px-4 py-2">{coin.value}</td>
+            <td className="border px-4 py-2">{coin.change}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
+
+const DepositFundsButton = () => {
+  const [amount, setAmount] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const handleDeposit = async (e) => {
+    e.preventDefault();
+    const userName = localStorage.getItem("userName");
+    const response = await depositFunds(userName, amount);
+    if (response.success) {
+      // Assuming 'response.newBalance' contains the updated balance
+      localStorage.setItem("balance", response.balance);
+      window.dispatchEvent(new Event("storage")); // This line will trigger the storage event listener
+    }
+    setMessage(response.message);
+    setIsSuccess(response.success);
+  };
+
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        color: "white",
+        padding: "20px",
+      }}
+    >
+      <form onSubmit={handleDeposit}>
+        <input
+          type="number"
+          placeholder="Enter amount to deposit"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          style={{
+            marginBottom: "10px",
+            padding: "10px",
+            color: "black",
+            width: "33%",
+          }}
+        />
+        <br />
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "green",
+            color: "white",
+            padding: "5px 10px",
+            borderRadius: "5px",
+          }}
+        >
+          Deposit
+        </button>
+      </form>
+      <div
+        className={isSuccess ? "success" : "error"}
+        style={{ marginTop: "10px" }}
+      >
+        {message}
+      </div>
+    </div>
+  );
+};
 
 const WalletBalance = () => {
   return (
     <div>
-      <CreateCryptoDataTable/>
+      <DepositFundsButton />
+      <CreateUserWalletTable />
     </div>
   );
 };
