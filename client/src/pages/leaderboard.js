@@ -44,7 +44,7 @@ const Leaderboard = () => {
   return (
       <div id="leaderboard">
         <div className="ribbon"><span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500">#Leaderboard</span></div>
-        <table className="leaderboard-table">
+        <table className="leaderboard-table" style={{ marginBottom: '100px' }}>
           <thead>
             <tr>
               <th className="number">#</th>
