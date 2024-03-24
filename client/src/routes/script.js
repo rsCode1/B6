@@ -1,4 +1,4 @@
-const url = "https://b6-hkrb.onrender.com"; //for debug use "http://localhost:5500"
+const url = "https://b6-hkrb.onrender.com"; //for debug use "http://localhost:5500" when pushing use https://b6-hkrb.onrender.com
 export function authenticateUser(userName, password) {
   return fetch(url + "/login", {
     method: "POST",

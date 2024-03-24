@@ -60,7 +60,7 @@ function CreateUserWalletTable() {
         const liveData = coinDataMap[coin.coinName.toLowerCase()] || {};
         return {
           ...coin,
-          symbol: liveData.symbol.toUpperCase(), // Get the symbol from the response
+          symbol: liveData.symbol, // Get the symbol from the response
           price: liveData.current_price || "N/A",
           value: liveData.current_price
             ? (coin.amount * liveData.current_price).toFixed(2)
