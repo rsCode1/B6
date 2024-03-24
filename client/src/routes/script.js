@@ -1,4 +1,5 @@
-const url = "https://b6-hkrb.onrender.com"; //for debug use "http://localhost:5500"
+const url = "http://localhost:5500"; 
+//const url = "https://b6-hkrb.onrender.com";
 export function authenticateUser(userName, password) {
   return fetch(url + "/login", {
     method: "POST",
@@ -156,6 +157,25 @@ export const getUserData = async () => {
       },
     });
     console.log("response form getUserData: ",response); // Log the entire response for inspection
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+export const getAllUserData = async () => {
+  try {
+    const response = await fetch(url + "/AlluserData", {
+      method: "GET",
+    });
+    console.log("response form getAllUserData: ",response); // Log the entire response for inspection
 
     if (response.ok) {
       const data = await response.json();

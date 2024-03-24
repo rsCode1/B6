@@ -116,6 +116,133 @@ th {
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
+#leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#leaderboard > * {
+  margin-bottom: 20px; /* Adjust the margin as needed */
+}
+
+#leaderboard > :first-child {
+  margin-top: 30px; /* Adjust the margin as needed */
+}
+
+.leaderboard-table {
+  width: 50%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: #141a39;
+  cursor: default;
+  margin: 0 auto;
+  font-size: 1.2rem; /* Adjust the font size as needed */
+}
+
+.leaderboard-table tr {
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.2rem;
+}
+
+.leaderboard-table tr:first-child {
+  background-color: #f55e77;
+  color: #fff;
+}
+
+.leaderboard-table tr:nth-child(2) {
+  background-color: #fff;
+}
+
+.leaderboard-table tr:nth-child(odd):not(:first-child):not(:nth-child(2)) {
+  background-color: #f9f9f9;
+}
+
+.leaderboard-table tr:nth-child(even):not(:first-child):not(:nth-child(2)) {
+  background-color: #fff;
+}
+
+.leaderboard-table tr:not(:first-child):hover {
+  transform: scale(1.1);
+  -webkit-box-shadow: 0px 5px 15px 8px #e4e7fb;
+  box-shadow: 0px 5px 15px 8px #e4e7fb;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  height: 4rem; /* Adjust the height as needed */
+  font-family: "Rubik", sans-serif;
+  padding: 1rem; /* Adjust the padding as needed */
+  position: relative;
+}
+
+.leaderboard-table th.number {
+  width: 10%; /* Adjust the width as needed */
+  font-size: 1.6rem; /* Adjust the font size as needed */
+  font-weight: bold;
+  text-align: center;
+  padding-left: 10px; /* Add padding to the left side of the column */
+}
+
+.leaderboard-table th.name,
+.leaderboard-table td.name,
+.leaderboard-table th.profit,
+.leaderboard-table td.profit {
+  text-align: left;
+}
+
+.leaderboard-table th.profit,
+.leaderboard-table td.profit {
+  font-weight: bold;
+  font-size: 1.2rem; /* Adjust the font size as needed */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ribbon span {
+  font-weight: bold;
+  font-size: 4rem; /* Adjust the font size as needed */
+}
+
+.bold-title {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.my_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video-container {
+  position: relative;
+  width: 500px; /* Adjust width as needed */
+  height: 300px; /* Adjust height as needed */
+  margin: 0 auto; /* Center the container horizontally */
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto; /* Center the iframe within its container */
+  width: 80%; /* Adjust width as needed */
+  height: 80%; /* Adjust height as needed */
+}
+
+.title-style {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #ccffcc; /* Light Green */
+  background-image: linear-gradient(45deg, #8A2BE2, #32CD32, #000000); /* Purple, Green, Black gradient */
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
 
 
 

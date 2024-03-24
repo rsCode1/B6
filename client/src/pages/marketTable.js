@@ -9,7 +9,7 @@ import { updateUserSell } from '../routes/script.js';
 
 function CreateCryptoDataTable() 
 {
-  const navigate = useNavigate(); // navigte to home
+  const navigate = useNavigate(); // navigte to login if user is not logged in
   const [fetchData, setFetchData] = useState(null);
   // State variable to store the buy amount
   const [buyAmounts, setBuyAmounts] = useState(Array(30).fill(0));

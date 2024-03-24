@@ -313,6 +313,36 @@ app.get('/userData', async (req, res)  =>
 
 });
 
+app.get('/AlluserData', async (req, res)  =>  
+{
+  try {
+    await client.connect();
+    console.log("Connected to database");
+
+    const database = client.db("webTechnologyCourse");
+    const collection = database.collection("users");
+    
+    const userData = await collection.find({}).toArray(); // take all users and conevt to array
+
+    // Extract relevant fields and form user objects
+    const users = userData.map(userDoc => ({
+      _id: userDoc._id,
+      userName: userDoc.userName,
+      password: userDoc.password,
+      balance: userDoc.balance,
+      coins: userDoc.coins
+    }));
+
+    res.status(200).json({ success: true, message: "user Data Found" ,users : users });
+  } catch (err) {
+    console.error("Error fetching All users Data:", err);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  } finally {
+    await client.close();
+  }
+
+});
+
 
 
 app.get('/', (req, res) => {
