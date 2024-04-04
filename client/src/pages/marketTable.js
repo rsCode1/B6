@@ -206,8 +206,8 @@ function CreateCryptoDataTable()
               <th className="py-2 px-4 border-b">Symbol</th>
               <th className="py-2 px-4 border-b">Price (USD)</th>
               <th className="py-2 px-4 border-b">Change (24h %)</th>
-              <th className="py-2 px-4 border-b">High (24h)</th>
-              <th className="py-2 px-4 border-b">Low (24h)</th>
+              {/*<th className="py-2 px-4 border-b">High (24h)</th>
+              <th className="py-2 px-4 border-b">Low (24h)</th>*/}
               <th className="py-2 px-4 border-b">Trade</th>
             </tr>
           </thead>
@@ -219,8 +219,8 @@ function CreateCryptoDataTable()
                 <td className="py-2 px-4 border-b">{coinData.symbol.toUpperCase()}</td>
                 <td className="py-2 px-4 border-b">{coinData.current_price}</td>
                 <td className="py-2 px-4 border-b">{coinData.price_change_percentage_24h}</td>
-                <td className="py-2 px-4 border-b">{coinData.high_24h}</td>
-                <td className="py-2 px-4 border-b">{coinData.low_24h}</td>
+                {/*<td className="py-2 px-4 border-b">{coinData.high_24h}</td>
+                <td className="py-2 px-4 border-b">{coinData.low_24h}</td>*/}
                 <td className="py-2 px-4 border-b">
                   <div className="flex items-center">
                     <input type="number" className = "number-input" id={`buy-input-${index + 1}`} value={buyAmounts[index]} onChange={(e) => handleInputBuyChange(index, e.target.value)} />
