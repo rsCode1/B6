@@ -262,8 +262,8 @@ th {
 /* Button Styles */
 .theme-toggle-button {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  bottom: 10px; /* Position from the bottom of the screen */
+  right: 20px; /* Position from the right side of the screen */
   display: inline-block;
   outline: 0;
   border: 0;
@@ -271,11 +271,11 @@ th {
   will-change: box-shadow, transform;
   background: radial-gradient(100% 100% at 100% 0%, #89E5FF 0%, #5468FF 100%);
   box-shadow: 0px 2px 4px rgb(45 35 66 / 40%), 0px 7px 13px -3px rgb(45 35 66 / 30%), inset 0px -3px 0px rgb(58 65 111 / 50%);
-  padding: 0 20px; /* Adjusted padding */
+  padding: 0 20px;
   border-radius: 6px;
   color: #fff;
-  height: 36px; /* Adjusted height */
-  font-size: 14px; /* Adjusted font size */
+  height: 36px;
+  font-size: 14px;
   text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
   transition: box-shadow 0.15s ease, transform 0.15s ease;
 }
@@ -289,6 +289,7 @@ th {
   box-shadow: inset 0px 3px 7px #3c4fe0;
   transform: translateY(2px);
 }
+
 
 
 
