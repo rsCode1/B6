@@ -11,8 +11,17 @@ import "tailwindcss/tailwind.css";
  * @returns {ReactDOM.Root} - The root React element.
  */
 export const root = ReactDOM.createRoot(document.getElementById("root"));
+
+function toggleTheme() {
+  const mainBody = document.getElementById("mainBody");
+  mainBody.classList.toggle("light-theme");
+}
+
 root.render(
   <React.StrictMode>
-    <App />
+    <div>
+      <App />
+      <button className="theme-toggle-button" onClick={toggleTheme}>Toggle Theme</button>
+    </div>
   </React.StrictMode>
 );

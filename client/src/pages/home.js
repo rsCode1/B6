@@ -83,8 +83,8 @@ function Home() {
       <div className="mt-8">
         <p className="flex items-center justify-center text-indigo-400 no-underline hover:no-underline font-bold text-2xl lg:text-4xl mb-4">
         <span className="leading-tight">
-        <span className="text-white">Unlock the world of</span> Cryptocurrency
-        <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500"> Exchange Simulator</span>
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">Unlock the world of</span> Cryptocurrency
+        <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500"> Exchange Simulator</span>
         </span>
         </p>
       </div>

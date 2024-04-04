@@ -61,8 +61,8 @@ function Navbar() {
       <div>
         {/* Navbar */}
         <nav
-          className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden"
-          style={{ filter: "brightness(120%)" }}
+        className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden"
+        style={{ filter: "brightness(80%)" }}
         >
           <div className="flex justify-between items-center py-2">
             <div className="flex items-center">
