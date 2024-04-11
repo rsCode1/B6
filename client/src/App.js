@@ -21,6 +21,7 @@ function Navbar() {
   console.log("Navbar component rendered");
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [myBalance, setMyBalance] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   let userName = "";
 
   useEffect(() => {
@@ -60,105 +61,144 @@ function Navbar() {
     <Router>
       <div>
         {/* Navbar */}
-        <nav
-        className="bg-blue-gray-800 opacity-75 w-full shadow-lg text-center overflow-hidden"
-        style={{ filter: "brightness(80%)" }}
-        >
-          <div className="flex justify-between items-center py-2">
-            <div className="flex items-center">
-              {/* Conditionally render Login, SignUp, or Logout based on authentication status */}
-              {userLoggedIn === false ? (
-                <>
-                  <Link to="/login" className="nav-link">
-                    Login
-                  </Link>
-                  <Link to="/signUp" className="nav-link ml-4">
-                    Sign Up
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/logout" className="nav-link ml-4">
-                    Logout
-                  </Link>
-                  <div
-                    className=" ml-20"
-                    style={{ color: "white", fontWeight: "bold" }}
-                  >
-                    Balance:{" "}
-                    <span
-                      className="nav-link"
-                      style={{
-                        color:
-                          myBalance < 0
-                            ? "red"
-                            : myBalance > 0
-                            ? "green"
-                            : "red",
-                      }}
-                    >
-                      {myBalance}$
-                    </span>
-                  </div>
-                  <div className="ml-1">
-                    <span style={{ color: "white", fontWeight: "bold" }}>
-                      Hi
-                    </span>
-                    <span className="nav-link" style={{ color: "lightblue" }}>
-                      {userName}
-                    </span>
-                  </div>
-                </>
-              )}
+        <nav className="bg-blue-gray-800 opacity-75 shadow-lg text-white w-full">
+          <div className="flex justify-between items-center px-4 py-2">
+            <div>
+              <button
+                className="text-white focus:outline-none md:hidden"
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {isOpen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  )}
+                </svg>
+              </button>
             </div>
-            <div className="flex items-center">
-              {/* Conditionally render other links based on authentication status */}
-              {userLoggedIn === false ? (
-                <>
-                  <Link to="/" className="nav-link">
+            {/* Items that will be hidden on mobile */}
+            <div
+              className={`md:flex ${
+                isOpen ? "block" : "hidden"
+              } md:items-center w-full md:w-auto`}
+              id="menu"
+            >
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
+                <div className="flex flex-col md:flex-row md:items-center">
+                  {userLoggedIn === false ? (
+                    <>
+                      <Link
+                        to="/login"
+                        onClick={() => setIsOpen(false)}
+                        className="nav-link py-2 md:py-0"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/signUp"
+                        onClick={() => setIsOpen(false)}
+                        className="nav-link py-2 md:py-0 ml-4"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/logout"
+                        onClick={() => setIsOpen(false)}
+                        className="nav-link py-2 md:py-0 ml-4"
+                      >
+                        Logout
+                      </Link>
+                      <div
+                        className="ml-20 py-2 md:py-0"
+                        style={{ color: "white", fontWeight: "bold" }}
+                      >
+                        Balance:{" "}
+                        <span
+                          className={`nav-link ${
+                            myBalance < 0 ? "text-red-500" : "text-green-500"
+                          }`}
+                        >
+                          {myBalance}$
+                        </span>
+                      </div>
+                      <div className="ml-1 py-2 md:py-0">
+                        <span style={{ fontWeight: "bold" }}>Hi,</span>
+                        <span
+                          className="nav-link"
+                          style={{ color: "lightblue" }}
+                        >
+                          {" "}
+                          {userName}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className="flex flex-col md:flex-row md:items-center mt-4 md:mt-0">
+                  <Link
+                    to="/"
+                    onClick={() => setIsOpen(false)}
+                    className="nav-link py-2 md:py-0"
+                  >
                     Home
                   </Link>
                   <Link
                     to="/leaderboard"
-                    className="nav-link ml-4 disabled-link"
+                    onClick={() => setIsOpen(false)}
+                    className={`nav-link py-2 md:py-0 ml-4 ${
+                      userLoggedIn ? "" : "disabled-link"
+                    }`}
                   >
                     Leaderboard
                   </Link>
-                  <Link to="/learning" className="nav-link ml-4 disabled-link">
+                  <Link
+                    to="/learning"
+                    onClick={() => setIsOpen(false)}
+                    className={`nav-link py-2 md:py-0 ml-4 ${
+                      userLoggedIn ? "" : "disabled-link"
+                    }`}
+                  >
                     Learning
                   </Link>
                   <Link
                     to="/markettable"
-                    className="nav-link ml-4 disabled-link"
+                    onClick={() => setIsOpen(false)}
+                    className={`nav-link py-2 md:py-0 ml-4 ${
+                      userLoggedIn ? "" : "disabled-link"
+                    }`}
                   >
                     Market Table
                   </Link>
                   <Link
                     to="/walletbalance"
-                    className="nav-link ml-4 disabled-link"
+                    onClick={() => setIsOpen(false)}
+                    className={`nav-link py-2 md:py-0 ml-4 ${
+                      userLoggedIn ? "" : "disabled-link"
+                    }`}
                   >
                     Wallet Balance
                   </Link>
-                </>
-              ) : (
-                <>
-                  <Link to="/" className="nav-link">
-                    Home
-                  </Link>
-                  <Link to="/leaderboard" className="nav-link ml-4">
-                    Leaderboard
-                  </Link>
-                  <Link to="/learning" className="nav-link ml-4">
-                    Learning
-                  </Link>
-                  <Link to="/markettable" className="nav-link ml-4">
-                    Market Table
-                  </Link>
-                  <Link to="/walletbalance" className="nav-link ml-4">
-                    Wallet Balance
-                  </Link>
-                </>
-              )}
+                </div>
+              </div>
             </div>
           </div>
         </nav>
